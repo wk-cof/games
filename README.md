@@ -16,6 +16,7 @@ Monorepo for a suite of tiny emoji games. Built with React, TypeScript, Vite, an
 ## Workspace layout
 ```
 apps/
+  home
   emogenius
   typehopper
   odd-one-out
@@ -24,7 +25,7 @@ packages/
   kit
 ```
 
-Each app imports `@emoji-minis/kit`, has its own strict tsconfig extending the root `tsconfig.base.json`, and can run independently with `pnpm -C apps/<name> dev`.
+Each app imports `@emoji-minis/kit`, has its own strict tsconfig extending the root `tsconfig.base.json`, and can run independently with `pnpm -C apps/<name> dev`. The `home` app renders the landing page that links to all games.
 
 ## Commands
 - `pnpm install` – install workspace dependencies

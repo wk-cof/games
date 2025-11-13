@@ -25,10 +25,24 @@ async function ensureBuilt(appName) {
   }
 }
 
+async function copyHomeContents(from, to) {
+  const entries = await readdir(from, { withFileTypes: true });
+  for (const entry of entries) {
+    const sourcePath = path.join(from, entry.name);
+    const targetPath = path.join(to, entry.name);
+    await cp(sourcePath, targetPath, { recursive: entry.isDirectory() });
+  }
+}
+
 async function copyApp(appName) {
   const from = path.join(appsDir, appName, 'dist');
+  if (appName === 'home') {
+    await copyHomeContents(from, distDir);
+    return 'root';
+  }
   const to = path.join(distDir, appName);
   await cp(from, to, { recursive: true });
+  return appName;
 }
 
 async function main() {
@@ -43,8 +57,8 @@ async function main() {
 
   for (const app of apps) {
     await ensureBuilt(app);
-    await copyApp(app);
-    console.log(`✔ packaged ${app}`);
+    const target = await copyApp(app);
+    console.log(`✔ packaged ${app}${target === 'root' ? ' (root)' : ''}`);
   }
 
   console.log(`All apps bundled into ${path.relative(rootDir, distDir)}`);
