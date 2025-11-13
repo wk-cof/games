@@ -43,7 +43,7 @@ export default function App() {
   };
 
   return (
-    <Shell title="Typehopper" subtitle="Re-type the emoji combo" hud={<HUD items={hud} />}>
+    <Shell title="Typehopper" hud={<HUD items={hud} />}>
       <div className="em-shell__grid">
         <Emoji symbol={target} size="3.5rem" />
         <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.5rem' }}>

@@ -69,11 +69,11 @@ export default function App() {
 
   const headerActions = (
     <>
+      <Button type="button" variant="ghost" onClick={startNewGame}>
+        Restart
+      </Button>
       <Button type="button" variant="ghost" onClick={() => setIsSettingsOpen(true)}>
         Settings
-      </Button>
-      <Button type="button" onClick={startNewGame}>
-        Restart
       </Button>
     </>
   );

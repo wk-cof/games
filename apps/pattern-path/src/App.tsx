@@ -40,7 +40,7 @@ export default function App() {
   };
 
   return (
-    <Shell title="Pattern Path" subtitle="Predict the next emoji" hud={<HUD items={hud} />}>
+    <Shell title="Pattern Path" hud={<HUD items={hud} />}>
       <div className="em-shell__grid" style={{ position: 'relative' }}>
         {sparkles.map((star) => (
           <span
