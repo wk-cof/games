@@ -1,0 +1,13 @@
+{
+  "name": "@emoji-minis/kit",
+  "version": "0.1.0",
+  "description": "Shared design tokens and UI primitives for emoji-minis games.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "sideEffects": ["./src/tokens.css"],
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

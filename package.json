@@ -1,0 +1,27 @@
+{
+  "name": "emoji-minis",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Monorepo for tiny emoji games built with React, TypeScript, and Vite.",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter './apps/*' dev",
+    "build": "pnpm run build:apps && pnpm run build:bundle",
+    "build:apps": "pnpm -r --filter './apps/*' build",
+    "build:bundle": "node scripts/collect-dist.mjs",
+    "clean": "rimraf dist 'apps/*/dist' packages/kit/dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.7"
+  }
+}
