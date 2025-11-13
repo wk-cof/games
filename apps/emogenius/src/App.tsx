@@ -1,72 +1,115 @@
-import { useMemo, useState } from 'react';
-import type { MouseEvent } from 'react';
-import { Shell, Button, HUD, Emoji, toast, wrongShake } from '@emoji-minis/kit';
+import { useState } from 'react';
+import { css } from '@emotion/react';
+import { Shell, Button, HUD, SettingsDialog } from '@emoji-minis/kit';
+import type { HUDItem } from '@emoji-minis/kit';
+import CelebrationOverlay from './components/CelebrationOverlay';
+import ControlsPanel from './components/ControlsPanel';
+import GameGrid from './components/GameGrid';
+import { useGameEngine } from './hooks/useGameEngine';
 
-const puzzles = [
-  {
-    clue: '🧠✨',
-    prompt: 'Synonym for brilliant',
-    options: ['Genius', 'Lucky', 'Spark'],
-    answer: 'Genius'
-  },
-  {
-    clue: '🎯🧑‍🎓',
-    prompt: 'Who always hits the right answer?',
-    options: ['Scholar', 'Sharpshooter', 'Teacher'],
-    answer: 'Scholar'
-  },
-  {
-    clue: '🧩⚡️',
-    prompt: 'Quick thinker badge',
-    options: ['Puzzle Bolt', 'Brainwave', 'Sprint Solve'],
-    answer: 'Brainwave'
-  }
-];
+const playAreaStyles = css`
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: rgba(248, 250, 252, 0.9);
+  border-radius: var(--emoji-radius-lg);
+  padding: clamp(0.5rem, 2vw, 1.5rem);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+`;
+
+const gridFrameStyles = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default function App() {
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [streak, setStreak] = useState(0);
-  const [round, setRound] = useState(1);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const {
+    theme,
+    difficulty,
+    mode,
+    cols,
+    deck,
+    isBusy,
+    isGameWon,
+    stats,
+    startNewGame,
+    handleCardClick,
+    handleThemeChange,
+    handleDifficultyChange,
+    handleModeChange
+  } = useGameEngine();
 
-  const puzzle = puzzles[index];
-  const hud = useMemo(
-    () => [
-      { label: 'score', value: score },
-      { label: 'streak', value: streak },
-      { label: 'round', value: round }
-    ],
-    [score, streak, round]
+  const resolvedScores = mode === 'hotseat'
+    ? (stats.playerScores.length ? stats.playerScores : [0, 0])
+    : stats.playerScores;
+
+  const hudItems: HUDItem[] = [
+    { label: 'Moves', value: stats.moves, tone: 'accent' }
+  ];
+
+  if (mode === 'hotseat') {
+    resolvedScores.forEach((score, index) => {
+      hudItems.push({
+        label: `Player ${index + 1}`,
+        value: score,
+        tone: 'neutral',
+        active: stats.activePlayerIndex === index
+      });
+    });
+  }
+
+  const headerActions = (
+    <>
+      <Button type="button" variant="ghost" onClick={() => setIsSettingsOpen(true)}>
+        Settings
+      </Button>
+      <Button type="button" onClick={startNewGame}>
+        Restart
+      </Button>
+    </>
   );
 
-  const handleAnswer = (choice: string, event: MouseEvent<HTMLButtonElement>) => {
-    if (choice === puzzle.answer) {
-      setScore((s) => s + 1);
-      setStreak((s) => s + 1);
-      toast('Nice one!');
-      const nextIndex = (index + 1) % puzzles.length;
-      setIndex(nextIndex);
-      setRound((r) => r + 1);
-    } else {
-      setStreak(0);
-      wrongShake(event.currentTarget);
-      toast('Try again', { duration: 1500 });
-    }
-  };
-
   return (
-    <Shell title="Emogenius" subtitle="Decode the emoji clue" hud={<HUD items={hud} />}>
-      <section className="em-shell__grid">
-        <Emoji symbol={puzzle.clue} size="4rem" />
-        <p>{puzzle.prompt}</p>
-        <div style={{ display: 'grid', gap: '0.5rem' }}>
-          {puzzle.options.map((option) => (
-            <Button key={option} onClick={(event) => handleAnswer(option, event)}>
-              {option}
-            </Button>
-          ))}
+    <>
+      <Shell title="Emogenius" hud={<HUD items={hudItems} />} actions={headerActions}>
+        <div css={playAreaStyles}>
+          <div css={gridFrameStyles}>
+            <GameGrid
+              deck={deck}
+              cols={cols}
+              isBusy={isBusy}
+              onCardClick={handleCardClick}
+            />
+            {isGameWon && (
+              <CelebrationOverlay
+                moves={stats.moves}
+                mode={mode}
+                playerScores={resolvedScores}
+                onRestart={startNewGame}
+              />
+            )}
+          </div>
         </div>
-      </section>
-    </Shell>
+      </Shell>
+      <SettingsDialog open={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
+        <ControlsPanel
+          theme={theme}
+          difficulty={difficulty}
+          mode={mode}
+          onThemeChange={handleThemeChange}
+          onDifficultyChange={handleDifficultyChange}
+          onModeChange={handleModeChange}
+        />
+      </SettingsDialog>
+    </>
   );
 }

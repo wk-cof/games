@@ -5,7 +5,16 @@ function ensureToastRoot(): HTMLElement {
   if (!root) {
     root = document.createElement('div');
     root.id = TOAST_ROOT_ID;
-    root.className = 'em-toast-root';
+    Object.assign(root.style, {
+      position: 'fixed',
+      bottom: 'var(--emoji-spacing-lg)',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      zIndex: '1000',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'var(--emoji-spacing-sm)'
+    });
     document.body.appendChild(root);
   }
   return root;
@@ -22,7 +31,14 @@ export function toast(message: string, options: ToastOptions = {}) {
   const duration = options.duration ?? 2200;
   const root = ensureToastRoot();
   const el = document.createElement('div');
-  el.className = 'em-toast';
+  Object.assign(el.style, {
+    background: 'var(--emoji-accent)',
+    color: 'var(--emoji-ink)',
+    padding: 'var(--emoji-spacing-sm) var(--emoji-spacing-md)',
+    borderRadius: 'var(--emoji-radius-md)',
+    boxShadow: '0 10px 25px rgb(0 0 0 / 0.2)',
+    animation: 'toast-pop 160ms ease'
+  });
   el.textContent = message;
   root.appendChild(el);
   window.setTimeout(() => {

@@ -7,6 +7,12 @@ Monorepo for a suite of tiny emoji games. Built with React, TypeScript, Vite, an
 - Vite + React 18 + TypeScript 5
 - Shared Kit: CSS tokens, primitives (Shell, Button, HUD, Emoji) and helpers (`toast`, `wrongShake`, `stars`).
 
+## Implementation Preferences
+- Use **Emotion (`@emotion/react`) for all styling**. Co-locate styles with their TSX component via the `css` prop / `Global` helpers—avoid separate `.css` files when possible.
+- Favor reusable kit primitives for UI (Shell, HUD pills, FlipCard, SettingsDialog, Buttons, toasts). App-specific styling should be minimal tokens/overrides.
+- Keep critical controls visible without scrolling; headers should host primary actions instead of footers.
+- When creating new UI patterns, add them to `packages/kit` so other games inherit the same look and feel.
+
 ## Workspace layout
 ```
 apps/

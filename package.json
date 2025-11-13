@@ -14,12 +14,13 @@
     "build": "pnpm run build:apps && pnpm run build:bundle",
     "build:apps": "pnpm -r --filter './apps/*' build",
     "build:bundle": "node scripts/collect-dist.mjs",
-    "clean": "rimraf dist 'apps/*/dist' packages/kit/dist"
+    "clean": "rimraf dist apps/*/dist packages/kit/dist"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
+    "@emotion/react": "^11.14.0",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.5",
     "vite": "^5.2.7"
