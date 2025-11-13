@@ -82,7 +82,7 @@ export function SettingsDialog({ open, onClose, title = 'Settings', children }: 
           <header css={headerStyles}>
             <h2>{title}</h2>
             <Button type="button" variant="ghost" onClick={onClose} aria-label="Close settings">
-              Close
+              ×
             </Button>
           </header>
           <div>{children}</div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { Shell, Button, HUD } from '@emoji-minis/kit';
 import type { HUDItem } from '@emoji-minis/kit';
@@ -23,9 +23,17 @@ const ruleStyles = css`
   text-align: center;
 `;
 
+type FeedbackState = {
+  tileId: string;
+  status: 'correct' | 'wrong';
+};
+
 export function GameScreen() {
   const { state, settings, announcement, bestScore, restart, selectTile } = useGame();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [feedback, setFeedback] = useState<FeedbackState | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const timeoutRef = useRef<number>();
 
   const hudItems = useMemo<HUDItem[]>(() => {
     const livesValue = settings.mode === 'practice' ? '∞' : Math.max(0, state.lives);
@@ -46,6 +54,30 @@ export function GameScreen() {
   const handleCloseSettings = () => {
     setIsSettingsOpen(false);
   };
+
+  const handleTileSelect = (tileId: string) => {
+    if (isAnimating || state.status !== 'running') {
+      return;
+    }
+    const tile = state.tiles.find((entry) => entry.id === tileId);
+    if (!tile) return;
+    const status: FeedbackState['status'] = tile.isOdd ? 'correct' : 'wrong';
+    setFeedback({ tileId, status });
+    setIsAnimating(true);
+    timeoutRef.current = window.setTimeout(() => {
+      selectTile(tileId);
+      setIsAnimating(false);
+      setFeedback(null);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const actions = (
     <div
@@ -75,9 +107,10 @@ export function GameScreen() {
         <div css={boardWrapperStyles}>
           <GameBoard
             tiles={state.tiles}
-            disabled={state.status !== 'running'}
+            disabled={isAnimating || state.status !== 'running'}
             revealOdd={state.status === 'lost'}
-            onSelectTile={selectTile}
+            onSelectTile={handleTileSelect}
+            feedback={feedback}
           />
         </div>
         <p css={ruleStyles}>{state.rule.description || 'Pick the odd one out!'}</p>

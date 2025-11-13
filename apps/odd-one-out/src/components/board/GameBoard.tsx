@@ -9,6 +9,7 @@ export interface GameBoardProps {
   disabled?: boolean;
   revealOdd?: boolean;
   onSelectTile: (tileId: string) => void;
+  feedback?: { tileId: string; status: 'correct' | 'wrong' } | null;
 }
 
 const boardStyles = css`
@@ -30,7 +31,7 @@ const gridStyles = css`
 
 const GAP_PX = 24;
 
-export function GameBoard({ tiles, disabled, revealOdd, onSelectTile }: GameBoardProps) {
+export function GameBoard({ tiles, disabled, revealOdd, onSelectTile, feedback }: GameBoardProps) {
   const { containerRef, handleKeyDown } = useArrowNavigation({
     columns: 2,
     total: tiles.length,
@@ -87,6 +88,7 @@ export function GameBoard({ tiles, disabled, revealOdd, onSelectTile }: GameBoar
             onSelect={() => handleSelect(tile.id)}
             size={cardSize}
             matched={tile.isOdd && (revealOdd || tile.id === selectedId)}
+            status={feedback?.tileId === tile.id ? feedback.status : undefined}
           />
         ))}
       </div>

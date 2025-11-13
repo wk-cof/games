@@ -112,11 +112,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
         <small>Choose at least two themes for better variety.</small>
       </section>
 
-      <div css={css`display: flex; justify-content: flex-end;`}>
-        <Button type="button" onClick={onClose}>
-          Close
-        </Button>
-      </div>
     </SettingsDialog>
   );
 }
