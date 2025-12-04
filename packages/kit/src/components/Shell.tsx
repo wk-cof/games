@@ -8,6 +8,8 @@ export type ShellProps = {
   actions?: ReactNode;
   children: ReactNode;
   className?: string;
+  hideHeader?: boolean;
+  noSurface?: boolean;
 };
 
 const shellStyles = css`
@@ -68,18 +70,36 @@ const surfaceStyles = css`
   gap: var(--emoji-spacing-md);
 `;
 
-export function Shell({ title, subtitle, hud, actions, children, className }: ShellProps) {
+const transparentSurfaceStyles = css`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--emoji-spacing-md);
+`;
+
+export function Shell({
+  title,
+  subtitle,
+  hud,
+  actions,
+  children,
+  className,
+  hideHeader = false,
+  noSurface = false
+}: ShellProps) {
   return (
     <div css={shellStyles} className={className}>
-      <div css={headerStyles}>
-        <div css={titleBlockStyles}>
-          <h1 css={titleStyles}>{title}</h1>
-          {subtitle ? <p css={subtitleStyles}>{subtitle}</p> : null}
+      {!hideHeader && (
+        <div css={headerStyles}>
+          <div css={titleBlockStyles}>
+            <h1 css={titleStyles}>{title}</h1>
+            {subtitle ? <p css={subtitleStyles}>{subtitle}</p> : null}
+          </div>
+          {actions ? <div css={actionsStyles}>{actions}</div> : null}
         </div>
-        {actions ? <div css={actionsStyles}>{actions}</div> : null}
-      </div>
+      )}
       {hud ? <div css={hudStyles}>{hud}</div> : null}
-      <div css={surfaceStyles}>{children}</div>
+      <div css={noSurface ? transparentSurfaceStyles : surfaceStyles}>{children}</div>
     </div>
   );
 }
