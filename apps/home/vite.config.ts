@@ -28,6 +28,9 @@ export default defineConfig({
       },
       '/emoji-echo': {
         target: 'http://localhost:3007',
+      },
+      '/shadow-shuffle': {
+        target: 'http://localhost:3008',
       }
     }
   }

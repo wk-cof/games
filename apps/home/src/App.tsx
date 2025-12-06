@@ -55,6 +55,14 @@ const apps = [
     emoji: '🍓',
     color: '#ff5e57',
     path: '/emoji-echo/'
+  },
+  {
+    id: 'shadow-shuffle',
+    title: 'Shadow Shuffle',
+    description: 'Catch the shadow! 👥',
+    emoji: '👥',
+    color: '#34495e',
+    path: '/shadow-shuffle/'
   }
 ];
 
