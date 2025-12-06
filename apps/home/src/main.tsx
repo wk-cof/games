@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Global, css } from '@emotion/react';
 import App from './App';
 import '@emoji-minis/kit';
+import './index.css';
+
 
 const globalStyles = css`
   :root {
