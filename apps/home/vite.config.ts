@@ -7,10 +7,22 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/emogenius': 'http://localhost:3001',
-      '/typehopper': 'http://localhost:3002',
-      '/odd-one-out': 'http://localhost:3003',
-      '/pattern-path': 'http://localhost:3004'
+      '/emogenius': {
+        target: 'http://localhost:3001',
+        rewrite: (path) => path.replace(/^\/emogenius/, '')
+      },
+      '/typehopper': {
+        target: 'http://localhost:3002',
+        rewrite: (path) => path.replace(/^\/typehopper/, '')
+      },
+      '/odd-one-out': {
+        target: 'http://localhost:3003',
+        rewrite: (path) => path.replace(/^\/odd-one-out/, '')
+      },
+      '/pattern-path': {
+        target: 'http://localhost:3004',
+        rewrite: (path) => path.replace(/^\/pattern-path/, '')
+      }
     }
   }
 });
