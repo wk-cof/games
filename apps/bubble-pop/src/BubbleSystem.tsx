@@ -7,6 +7,7 @@ type BubbleData = {
     emoji: string;
     x: number;
     speed: number;
+    errorTimestamp?: number;
 };
 
 type BubbleSystemProps = {
@@ -54,6 +55,15 @@ export const BubbleSystem = ({ active, targetEmoji, onPop }: BubbleSystemProps) 
     const handlePop = (id: string, x: number, y: number) => {
         const bubble = bubbles.find(b => b.id === id);
         if (!bubble) return;
+
+        // Check if it's the correct emoji in challenge mode
+        if (targetEmoji && bubble.emoji !== targetEmoji) {
+            // Wrong bubble! Trigger error animation
+            setBubbles(prev => prev.map(b =>
+                b.id === id ? { ...b, errorTimestamp: Date.now() } : b
+            ));
+            return;
+        }
 
         // Remove bubble
         setBubbles(prev => prev.filter(b => b.id !== id));

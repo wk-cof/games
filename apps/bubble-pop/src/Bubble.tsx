@@ -7,6 +7,7 @@ type BubbleProps = {
     emoji: string;
     x: number; // percentage 0-100
     speed: number; // duration in seconds
+    errorTimestamp?: number;
     onPop: (id: string, x: number, y: number) => void;
     onMiss: (id: string) => void;
 };
@@ -48,17 +49,32 @@ const bubbleStyles = css`
   }
 `;
 
-export const Bubble = ({ id, emoji, x, speed, onPop, onMiss }: BubbleProps) => {
+export const Bubble = ({ id, emoji, x, speed, errorTimestamp, onPop, onMiss }: BubbleProps) => {
     const controls = useAnimation();
+    const floatControls = useAnimation();
 
     useEffect(() => {
-        controls.start({
+        floatControls.start({
             y: '-120vh',
             transition: { duration: speed, ease: 'linear' }
         }).then(() => {
             onMiss(id);
         });
-    }, [controls, speed, onMiss, id]);
+    }, [floatControls, speed, onMiss, id]);
+
+    useEffect(() => {
+        if (errorTimestamp) {
+            controls.start({
+                x: [0, -10, 10, -10, 10, 0],
+                backgroundColor: [
+                    'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4))',
+                    'radial-gradient(circle at 30% 30%, rgba(255, 200, 200, 0.9), rgba(255, 0, 0, 0.4))',
+                    'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4))'
+                ],
+                transition: { duration: 0.4 }
+            });
+        }
+    }, [errorTimestamp, controls]);
 
     const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
         e.stopPropagation();
@@ -72,12 +88,14 @@ export const Bubble = ({ id, emoji, x, speed, onPop, onMiss }: BubbleProps) => {
         <motion.div
             css={bubbleStyles}
             style={{ left: `${x}%` }}
-            animate={controls}
+            animate={floatControls}
             initial={{ y: '10vh' }}
             onMouseDown={handleClick}
             onTouchStart={handleClick}
         >
-            {emoji}
+            <motion.div animate={controls} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>
+                {emoji}
+            </motion.div>
         </motion.div>
     );
 };
