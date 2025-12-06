@@ -5,6 +5,7 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   server: {
-    port: 3004
+    port: 3004,
+    strictPort: true
   }
 });
