@@ -22,6 +22,9 @@ export default defineConfig({
       },
       '/bubble-pop': {
         target: 'http://localhost:3005',
+      },
+      '/hangman': {
+        target: 'http://localhost:3006',
       }
     }
   }

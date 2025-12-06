@@ -35,9 +35,18 @@ const apps = [
   {
     id: 'bubble-pop',
     title: 'Bubble Pop',
-    description: 'Pop the bubbles!',
+    description: 'Pop bubbles before they float away! 🫧',
     emoji: '🫧',
-    color: '#A8D8EA'
+    color: 'var(--es-accent-pink)',
+    path: '/bubble-pop/'
+  },
+  {
+    id: 'hangman',
+    title: 'Word Whiz',
+    description: 'Save the snowman by guessing the word! ☃️',
+    emoji: '☃️',
+    color: 'var(--es-accent-blue)',
+    path: '/hangman/'
   }
 ];
 
