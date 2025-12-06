@@ -65,6 +65,11 @@ export function useGameLogic() {
         if (gameState !== 'player_input') return;
 
         playTone(index);
+
+        // Flash the button
+        setActiveButton(index);
+        setTimeout(() => setActiveButton(null), 200);
+
         const newInput = [...playerInput, index];
         setPlayerInput(newInput);
 

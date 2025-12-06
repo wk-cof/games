@@ -1,7 +1,7 @@
 import { css, keyframes } from '@emotion/react';
 import { motion } from 'framer-motion';
 
-const BUTTON_CONFIG = [
+export const BUTTON_CONFIG = [
     { color: '#ff5e57', emoji: '🍓' }, // Red
     { color: '#45aaf2', emoji: '🐳' }, // Blue
     { color: '#2ecc71', emoji: '🐸' }, // Green
@@ -54,9 +54,11 @@ export function SimonBoard({ activeButton, onInput, disabled }: SimonBoardProps)
                         css={css`
                     ${buttonBaseStyles};
                     background-color: ${config.color};
-                    opacity: ${isActive ? 1 : 0.6};
+                    opacity: ${isActive ? 1 : 0.4};
                     filter: ${isActive ? 'brightness(1.2)' : 'none'};
                     transform: ${isActive ? 'scale(1.05)' : 'none'};
+                    border: ${isActive ? '4px solid white' : '4px solid transparent'};
+                    box-shadow: ${isActive ? '0 0 20px rgba(255,255,255,0.5)' : '0 4px 0 rgba(0,0,0,0.1)'};
                 `}
                         whileTap={{ scale: disabled ? 1 : 0.95 }}
                         onClick={() => !disabled && onInput(index)}
