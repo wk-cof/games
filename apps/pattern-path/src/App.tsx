@@ -66,12 +66,17 @@ const repeatSeed = (seed: string[], length: number) => {
   return pattern;
 };
 
-const buildChoices = (answer: string, theme: Theme) => {
-  const pool = shuffle(theme.emojis.filter((emoji) => emoji !== answer));
+const buildChoices = (answer: string, pattern: string[], theme: Theme) => {
+  const uniqueInPattern = Array.from(new Set(pattern)).filter(e => e !== answer);
+  const otherInTheme = theme.emojis.filter(e => e !== answer && !uniqueInPattern.includes(e));
+
+  const pool = [...shuffle(uniqueInPattern), ...shuffle(otherInTheme)];
+
   const choices: string[] = [answer];
   while (choices.length < 3) {
     const next = pool.shift();
-    choices.push(next ?? answer);
+    if (!next) break;
+    choices.push(next);
   }
   return shuffle(choices);
 };
@@ -92,7 +97,7 @@ const generateLevels = (count: number): Level[] =>
     const length = randomInt(recipe.minLength, recipe.maxLength);
     const pattern = repeatSeed(recipe.seed(baseSymbols), length);
     const missingIndex = randomInt(0, pattern.length - 1);
-    const choices = buildChoices(pattern[missingIndex], theme);
+    const choices = buildChoices(pattern[missingIndex], pattern, theme);
 
     return { pattern, missingIndex, choices, theme: theme.name };
   });
@@ -150,6 +155,7 @@ const patternStyles = css`
   justify-content: center;
   gap: 0.5rem;
   font-size: clamp(2.5rem, 7vw, 3.5rem);
+  flex-wrap: wrap;
 `;
 
 const blankStyles = css`
