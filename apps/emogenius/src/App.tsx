@@ -11,13 +11,14 @@ const playAreaStyles = css`
   flex: 1;
   width: 100%;
   min-height: 0;
-  background: rgba(248, 250, 252, 0.9);
+  background: var(--es-surface);
   border-radius: var(--emoji-radius-lg);
   padding: clamp(0.5rem, 2vw, 1.5rem);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4);
+  box-shadow: var(--es-shadow-lg);
   display: flex;
   align-items: stretch;
   justify-content: center;
+  border: 1px solid var(--es-border);
 `;
 
 const gridFrameStyles = css`

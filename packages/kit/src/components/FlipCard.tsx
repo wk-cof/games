@@ -18,7 +18,7 @@ const cardBase = css`
   border: none;
   padding: 0;
   background: transparent;
-  border-radius: 18px;
+  border-radius: var(--emoji-radius-md);
   position: relative;
   cursor: pointer;
 
@@ -39,24 +39,26 @@ const matchedStyles = css`
 const faceBase = css`
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: var(--emoji-radius-md);
   display: grid;
   place-items: center;
   font-size: var(--em-card-font-size, clamp(1.75rem, 6vw, 2.7rem));
-  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.2);
+  box-shadow: var(--es-shadow-md);
   transition: opacity 180ms ease, background 180ms ease, color 180ms ease,
     box-shadow 200ms ease;
   opacity: 0;
+  border: 1px solid var(--es-border);
 `;
 
 const faceBack = css`
-  background: var(--em-card-back-bg, #cfd4ff);
-  color: var(--em-card-back-fg, #4338ca);
+  background: var(--em-card-back-bg, var(--es-primary));
+  color: var(--em-card-back-fg, white);
+  border: none;
 `;
 
 const faceFront = css`
-  background: var(--em-card-front-bg, #ffffff);
-  color: var(--em-card-front-fg, var(--emoji-ink));
+  background: var(--em-card-front-bg, var(--es-surface));
+  color: var(--em-card-front-fg, var(--es-text-primary));
 `;
 
 const faceVisible = css`
@@ -64,9 +66,10 @@ const faceVisible = css`
 `;
 
 const faceMatched = css`
-  background: var(--em-card-match-bg, #34d399);
-  color: var(--em-card-match-fg, #064e3b);
-  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+  background: var(--em-card-match-bg, var(--es-success));
+  color: var(--em-card-match-fg, white);
+  box-shadow: var(--es-shadow-lg);
+  border: none;
 `;
 
 export function FlipCard({
@@ -81,9 +84,9 @@ export function FlipCard({
 }: FlipCardProps) {
   const sizeStyle: CSSProperties | undefined = size
     ? {
-        '--em-card-size': `${size}px`,
-        '--em-card-font-size': `${Math.max(22, Math.min(size * 0.55, 60))}px`
-      } as CSSProperties
+      '--em-card-size': `${size}px`,
+      '--em-card-font-size': `${Math.max(22, Math.min(size * 0.55, 60))}px`
+    } as CSSProperties
     : undefined;
 
   return (

@@ -83,8 +83,8 @@ const generateLevels = (count: number): Level[] =>
       tier === 'easy'
         ? patternRecipes.filter((recipe) => recipe.tier === 'easy')
         : tier === 'medium'
-        ? patternRecipes.filter((recipe) => recipe.tier !== 'hard')
-        : patternRecipes;
+          ? patternRecipes.filter((recipe) => recipe.tier !== 'hard')
+          : patternRecipes;
     const recipe = randomItem(recipePool);
     const theme = randomItem(themes);
     const palette = shuffle(theme.emojis).slice(0, Math.min(theme.emojis.length, recipe.symbols + 3));
@@ -99,14 +99,17 @@ const generateLevels = (count: number): Level[] =>
 
 const boardBase = css`
   position: relative;
-  background: white;
-  border-radius: 24px;
+  background: var(--es-surface);
+  border-radius: var(--emoji-radius-lg);
   padding: clamp(1rem, 2vw, 1.5rem);
-  box-shadow: 0 20px 40px rgb(168 140 120 / 0.2);
+  box-shadow: var(--es-shadow-lg);
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid var(--es-border);
 `;
 
 const pop = keyframes`
@@ -156,13 +159,13 @@ const blankStyles = css`
 const promptStyles = css`
   margin: 0;
   font-size: 1.05rem;
-  color: #7a6458;
+  color: var(--es-text-primary);
 `;
 
 const promptTagStyles = css`
   display: block;
   font-size: 0.85rem;
-  color: #b08a7a;
+  color: var(--es-text-secondary);
   margin-top: 0.15rem;
 `;
 
@@ -173,10 +176,21 @@ const choicesGrid = css`
 `;
 
 const choiceButton = css`
-  background: #fff4e1;
-  color: var(--emoji-ink);
+  background: var(--es-surface);
+  color: var(--es-text-primary);
   font-size: 2rem;
-  box-shadow: 0 10px 20px rgb(253 161 94 / 0.18);
+  box-shadow: var(--es-shadow-sm);
+  border: 1px solid var(--es-border);
+  
+  &:hover {
+    background: var(--es-background);
+    transform: translateY(-2px);
+    box-shadow: var(--es-shadow-md);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 `;
 
 const footerStyles = css`
@@ -310,8 +324,8 @@ export default function App() {
     feedback === 'correct'
       ? css` ${boardBase}; animation: ${pop} 0.6s ease; box-shadow: 0 18px 50px rgb(109 191 139 / 0.35); `
       : feedback === 'wrong'
-      ? css` ${boardBase}; animation: ${shake} 0.45s ease; `
-      : boardBase;
+        ? css` ${boardBase}; animation: ${shake} 0.45s ease; `
+        : boardBase;
 
   return (
     <>

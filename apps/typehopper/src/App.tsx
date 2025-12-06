@@ -54,8 +54,10 @@ export default function App() {
             style={{
               padding: '0.75rem',
               fontSize: '1.25rem',
-              borderRadius: '12px',
-              border: '2px solid rgb(0 0 0 / 0.1)'
+              borderRadius: 'var(--emoji-radius-md)',
+              border: '1px solid var(--es-border)',
+              background: 'var(--es-surface)',
+              color: 'var(--es-text-primary)'
             }}
           />
           <Button type="submit">Match it</Button>
