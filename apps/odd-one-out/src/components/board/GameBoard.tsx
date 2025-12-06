@@ -14,9 +14,8 @@ export interface GameBoardProps {
 
 const boardStyles = css`
   width: 100%;
-  height: min(70vh, 640px);
-  max-width: min(70vh, 640px);
-  min-height: 320px;
+  max-width: min(60vh, 600px);
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,6 +26,7 @@ const gridStyles = css`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.75rem, 2vw, 1.5rem);
   width: 100%;
+  height: 100%;
 `;
 
 const GAP_PX = 24;
@@ -47,7 +47,7 @@ export function GameBoard({ tiles, disabled, revealOdd, onSelectTile, feedback }
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
       const width = entry.contentRect.width;
-      const nextSize = Math.max(120, Math.min(220, (width - GAP_PX) / 2));
+      const nextSize = Math.max(120, Math.min(320, (width - GAP_PX) / 2));
       setCardSize(nextSize);
     });
     observer.observe(node);

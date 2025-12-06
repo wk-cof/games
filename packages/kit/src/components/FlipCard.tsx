@@ -85,7 +85,7 @@ export function FlipCard({
   const sizeStyle: CSSProperties | undefined = size
     ? {
       '--em-card-size': `${size}px`,
-      '--em-card-font-size': `${Math.max(22, Math.min(size * 0.55, 60))}px`
+      '--em-card-font-size': `${Math.max(22, Math.min(size * 0.55, 120))}px`
     } as CSSProperties
     : undefined;
 
