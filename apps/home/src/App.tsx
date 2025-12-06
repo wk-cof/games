@@ -47,6 +47,14 @@ const apps = [
     emoji: '☃️',
     color: 'var(--es-accent-blue)',
     path: '/hangman/'
+  },
+  {
+    id: 'emoji-echo',
+    title: 'Emoji Echo',
+    description: 'Repeat the pattern! 🍓🐳🐸🌻',
+    emoji: '🍓',
+    color: '#ff5e57',
+    path: '/emoji-echo/'
   }
 ];
 
@@ -100,7 +108,7 @@ export default function App() {
   return (
     <Shell
       title="Emoji Minis"
-      subtitle="Play tiny emoji games!"
+      subtitle="A suite of beautifully crafted emoji games designed to build cognitive skills and make learning delightful."
       navItems={navItems}
     >
       <div css={gridStyles}>

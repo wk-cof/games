@@ -1,6 +1,6 @@
 # emoji-minis
 
-Monorepo for a suite of tiny emoji games. Built with React, TypeScript, Vite, and pnpm workspaces so the apps share a common look and feel through the `@emoji-minis/kit` package.
+Monorepo for a suite of tiny emoji games. A suite of beautifully crafted emoji games designed to build cognitive skills and make learning delightful. Built with React, TypeScript, Vite, and pnpm workspaces so the apps share a common look and feel through the `@emoji-minis/kit` package.
 
 ## Stack
 - Node 20 + pnpm 9

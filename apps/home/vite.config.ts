@@ -25,6 +25,9 @@ export default defineConfig({
       },
       '/hangman': {
         target: 'http://localhost:3006',
+      },
+      '/emoji-echo': {
+        target: 'http://localhost:3007',
       }
     }
   }
