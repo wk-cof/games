@@ -31,6 +31,13 @@ const apps = [
     description: 'What comes next?',
     emoji: '🔮',
     color: '#FF6B6B'
+  },
+  {
+    id: 'bubble-pop',
+    title: 'Bubble Pop',
+    description: 'Pop the bubbles!',
+    emoji: '🫧',
+    color: '#A8D8EA'
   }
 ];
 

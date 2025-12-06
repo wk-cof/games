@@ -19,6 +19,9 @@ export default defineConfig({
       },
       '/pattern-path': {
         target: 'http://localhost:3004',
+      },
+      '/bubble-pop': {
+        target: 'http://localhost:3005',
       }
     }
   }
