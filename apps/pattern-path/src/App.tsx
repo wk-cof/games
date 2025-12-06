@@ -112,7 +112,8 @@ const boardBase = css`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 400px;
+  max-width: fit-content;
+  min-width: 300px;
   margin: 0 auto;
   border: 1px solid var(--es-border);
 `;
@@ -155,7 +156,7 @@ const patternStyles = css`
   justify-content: center;
   gap: 0.5rem;
   font-size: clamp(2.5rem, 7vw, 3.5rem);
-  flex-wrap: wrap;
+  white-space: nowrap;
 `;
 
 const blankStyles = css`

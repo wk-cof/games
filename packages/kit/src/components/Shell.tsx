@@ -154,9 +154,9 @@ export function Shell({
   return (
     <div css={shellContainer} className={className}>
       <aside css={sidebarStyles}>
-        <div css={sidebarTitleStyles}>
+        <a href="/" css={[sidebarTitleStyles, css`text-decoration: none; display: block; cursor: pointer;`]}>
           Emoji Minis
-        </div>
+        </a>
         <nav css={css`display: flex; flex-direction: column; gap: 0.5rem;`}>
           <NavContent />
         </nav>
