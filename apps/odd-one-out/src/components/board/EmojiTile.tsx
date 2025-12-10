@@ -87,6 +87,7 @@ function EmojiTileComponent({ tile, disabled, matched, status, onSelect, index, 
         size={size}
         onClick={onSelect}
         ariaLabel={`Emoji tile ${tile.emoji}`}
+        interactionSound={false}
       />
     </div>
   );

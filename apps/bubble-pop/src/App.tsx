@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { css } from '@emotion/react';
-import { Shell, HUD, Button } from '@emoji-minis/kit';
+import { Shell, HUD, Button, useGameSounds } from '@emoji-minis/kit';
 import { BubbleSystem } from './BubbleSystem';
 
 const gameContainerStyles = css`
@@ -19,6 +19,8 @@ export default function App() {
     const [mode, setMode] = useState<'zen' | 'challenge'>('zen');
     const [targetEmoji, setTargetEmoji] = useState<string>();
 
+    const { playClick } = useGameSounds();
+
     const startGame = (selectedMode: 'zen' | 'challenge') => {
         setMode(selectedMode);
         setScore(0);
@@ -36,9 +38,7 @@ export default function App() {
     };
 
     const handlePop = useCallback((emoji: string) => {
-        // Play sound (placeholder for now)
-        // const audio = new Audio('/pop.mp3');
-        // audio.play();
+        playClick();
 
         if (mode === 'zen') {
             setScore(s => s + 1);

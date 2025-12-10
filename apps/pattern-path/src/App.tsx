@@ -366,6 +366,7 @@ export default function App() {
                 disabled={locked}
                 onClick={() => handlePick(emoji)}
                 css={choiceButton}
+                interactionSound={false}
               >
                 {emoji}
               </Button>

@@ -1,5 +1,4 @@
-import { css, keyframes } from '@emotion/react';
-import { motion } from 'framer-motion';
+import { css } from '@emotion/react';
 
 export const BUTTON_CONFIG = [
     { color: '#ff5e57', emoji: '🍓' }, // Red
@@ -61,7 +60,11 @@ export function SimonBoard({ activeButton, onInput, disabled }: SimonBoardProps)
                     box-shadow: ${isActive ? '0 0 20px rgba(255,255,255,0.5)' : '0 4px 0 rgba(0,0,0,0.1)'};
                 `}
                         whileTap={{ scale: disabled ? 1 : 0.95 }}
-                        onClick={() => !disabled && onInput(index)}
+                        onClick={() => {
+                            if (!disabled) {
+                                onInput(index);
+                            }
+                        }}
                         disabled={disabled}
                     >
                         {config.emoji}

@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
+import { useGameSounds } from '../hooks/useGameSounds';
 import { css } from '@emotion/react';
 
 export type FlipCardProps = {
@@ -10,6 +11,7 @@ export type FlipCardProps = {
   size?: number;
   onClick?: () => void;
   ariaLabel?: string;
+  interactionSound?: boolean;
 };
 
 const cardBase = css`
@@ -80,8 +82,11 @@ export function FlipCard({
   disabled = false,
   size,
   onClick,
-  ariaLabel
+  ariaLabel,
+  interactionSound = true
 }: FlipCardProps) {
+  const { playClick } = useGameSounds();
+
   const sizeStyle: CSSProperties | undefined = size
     ? {
       '--em-card-size': `${size}px`,
@@ -93,7 +98,14 @@ export function FlipCard({
     <button
       type="button"
       css={[cardBase, matched && matchedStyles, !matched && flipped && peekStyles]}
-      onClick={onClick}
+      onClick={() => {
+        if (!disabled) {
+          if (interactionSound) {
+            playClick();
+          }
+          onClick?.();
+        }
+      }}
       disabled={disabled}
       aria-pressed={flipped}
       aria-label={ariaLabel}

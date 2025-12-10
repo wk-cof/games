@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/react';
-import { Shell, Button, HUD } from '@emoji-minis/kit';
+import { Shell, Button, HUD, useGameSounds } from '@emoji-minis/kit';
 import { ShadowEmoji, DifficultyStage } from './components/ShadowEmoji';
 import { motion } from 'framer-motion';
 
@@ -67,6 +67,8 @@ export default function App() {
     const [stage, setStage] = useState<DifficultyStage>('static');
     const [message, setMessage] = useState('Find the shadow!');
     const [isShadowVisible, setIsShadowVisible] = useState(true);
+    const { playSuccess, playError, playClick } = useGameSounds();
+
 
     useEffect(() => {
         startGame();
@@ -198,6 +200,7 @@ export default function App() {
         if (gameState !== 'playing') return;
 
         if (option.isCorrect) {
+            playSuccess();
             const newScore = score + 1;
             setScore(newScore);
             setMessage('Correct! 🎉');
@@ -206,6 +209,7 @@ export default function App() {
                 startRound(newScore);
             }, 800);
         } else {
+            playError();
             const newLives = lives - 1;
             setLives(newLives);
             if (newLives === 0) {
@@ -258,7 +262,10 @@ export default function App() {
                                 <motion.button
                                     key={option.id}
                                     css={optionButtonStyles}
-                                    onClick={() => handleGuess(option)}
+                                    onClick={() => {
+                                        playClick();
+                                        handleGuess(option);
+                                    }}
                                     whileHover={{ scale: 1.1, borderColor: '#ddd' }}
                                     whileTap={{ scale: 0.95 }}
                                 >

@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { SoundProvider } from '@emoji-minis/kit';
 import '@emoji-minis/kit';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <App />
+        <SoundProvider>
+            <App />
+        </SoundProvider>
     </React.StrictMode>
 );

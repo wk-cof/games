@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { css } from '@emotion/react';
+import { SoundToggle } from './SoundToggle';
 
 export type NavItem = {
   label: string;
@@ -169,7 +170,10 @@ export function Shell({
               <h1 css={titleStyles}>{title}</h1>
               {subtitle && <p css={css`color: var(--es-text-secondary); margin: 0.5rem 0 0;`}>{subtitle}</p>}
             </div>
-            {actions && <div>{actions}</div>}
+            <div css={css`display: flex; gap: 0.5rem; align-items: center;`}>
+              <SoundToggle />
+              {actions && <div>{actions}</div>}
+            </div>
           </header>
         )}
         {hud && <div css={css`margin-bottom: 2rem;`}>{hud}</div>}

@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useGameSounds } from '@emoji-minis/kit';
 import {
   DIFFICULTIES,
   EMOJI_THEMES,
@@ -198,6 +199,17 @@ export const useGameEngine = (
   );
 
   const isGameWon = targetPairs > 0 && matches === targetPairs;
+  const { playSuccess } = useGameSounds();
+  const hasPlayedWinSound = useRef(false);
+
+  useEffect(() => {
+    if (isGameWon && !hasPlayedWinSound.current) {
+      playSuccess();
+      hasPlayedWinSound.current = true;
+    } else if (!isGameWon) {
+      hasPlayedWinSound.current = false;
+    }
+  }, [isGameWon, playSuccess]);
 
   const handleThemeChange = useCallback((nextTheme: ThemeKey) => {
     setTheme(nextTheme);
