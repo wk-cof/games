@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { motion } from 'framer-motion';
 
 export const BUTTON_CONFIG = [
     { color: '#ff5e57', emoji: '🍓' }, // Red
