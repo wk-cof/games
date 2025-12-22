@@ -75,7 +75,8 @@ function getEmojiForWord(word: string) {
     const map: Record<string, string> = {
         'CAT': '🐱', 'DOG': '🐶', 'FISH': '🐟', 'BIRD': '🐦',
         'PIG': '🐷', 'COW': '🐮', 'FOX': '🦊', 'BEAR': '🐻',
-        'SUN': '☀️', 'RUN': '🏃', 'BUN': '🥖', 'BOX': '📦', 'SIX': '6️⃣'
+        'SUN': '☀️', 'RUN': '🏃', 'BUN': '🥖', 'BOX': '📦',
+        'SIX': '6️⃣', 'BED': '🛏️', 'MAP': '🗺️', 'RAT': '🐀'
     };
     return map[word] || '❓';
 }
