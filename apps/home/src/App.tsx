@@ -63,6 +63,14 @@ const apps = [
     emoji: '👥',
     color: '#34495e',
     path: '/shadow-shuffle/'
+  },
+  {
+    id: 'emoji-codenames',
+    title: 'Emoji Codenames',
+    description: 'Crack the code to learn to read! 🕵️‍♀️',
+    emoji: '🕵️‍♀️',
+    color: '#8e44ad',
+    path: '/emoji-codenames/'
   }
 ];
 

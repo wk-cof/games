@@ -31,6 +31,9 @@ export default defineConfig({
       },
       '/shadow-shuffle': {
         target: 'http://localhost:3008',
+      },
+      '/emoji-codenames': {
+        target: 'http://localhost:3009',
       }
     }
   }
