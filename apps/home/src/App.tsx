@@ -1,77 +1,77 @@
-import { useState, useEffect } from 'react';
-import { css } from '@emotion/react';
-import { Shell, GameCard } from '@emoji-minis/kit';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { css } from "@emotion/react";
+import { Shell, GameCard } from "@emoji-minis/kit";
+import { motion } from "framer-motion";
 
 const apps = [
   {
-    id: 'emogenius',
-    title: 'Emogenius',
-    description: 'Decode emoji clues!',
-    emoji: '🧠',
-    color: '#FFD93D'
+    id: "emogenius",
+    title: "Emogenius",
+    description: "Decode emoji clues!",
+    emoji: "🧠",
+    color: "#FFD93D",
   },
   {
-    id: 'typehopper',
-    title: 'Typehopper',
-    description: 'Type emojis fast!',
-    emoji: '⌨️',
-    color: '#6BCB77'
+    id: "typehopper",
+    title: "Typehopper",
+    description: "Type emojis fast!",
+    emoji: "⌨️",
+    color: "#6BCB77",
   },
   {
-    id: 'odd-one-out',
-    title: 'Odd One Out',
-    description: 'Find the different one!',
-    emoji: '🧐',
-    color: '#4D96FF'
+    id: "odd-one-out",
+    title: "Odd One Out",
+    description: "Find the different one!",
+    emoji: "🧐",
+    color: "#4D96FF",
   },
   {
-    id: 'pattern-path',
-    title: 'Pattern Path',
-    description: 'What comes next?',
-    emoji: '🔮',
-    color: '#FF6B6B'
+    id: "pattern-path",
+    title: "Pattern Path",
+    description: "What comes next?",
+    emoji: "🔮",
+    color: "#FF6B6B",
   },
   {
-    id: 'bubble-pop',
-    title: 'Bubble Pop',
-    description: 'Pop bubbles before they float away! 🫧',
-    emoji: '🫧',
-    color: 'var(--es-accent-pink)',
-    path: '/bubble-pop/'
+    id: "bubble-pop",
+    title: "Bubble Pop",
+    description: "Pop bubbles before they float away! 🫧",
+    emoji: "🫧",
+    color: "var(--es-accent-pink)",
+    path: "/bubble-pop/",
   },
   {
-    id: 'hangman',
-    title: 'Word Whiz',
-    description: 'Save the snowman by guessing the word! ☃️',
-    emoji: '☃️',
-    color: 'var(--es-accent-blue)',
-    path: '/hangman/'
+    id: "hangman",
+    title: "Word Whiz",
+    description: "Save the snowman by guessing the word! ☃️",
+    emoji: "☃️",
+    color: "var(--es-accent-blue)",
+    path: "/hangman/",
   },
   {
-    id: 'emoji-echo',
-    title: 'Emoji Echo',
-    description: 'Repeat the pattern! 🍓🐳🐸🌻',
-    emoji: '🍓',
-    color: '#ff5e57',
-    path: '/emoji-echo/'
+    id: "emoji-echo",
+    title: "Emoji Echo",
+    description: "Repeat the pattern! 🍓🐳🐸🌻",
+    emoji: "🍓",
+    color: "#ff5e57",
+    path: "/emoji-echo/",
   },
   {
-    id: 'shadow-shuffle',
-    title: 'Shadow Shuffle',
-    description: 'Catch the shadow! 👥',
-    emoji: '👥',
-    color: '#34495e',
-    path: '/shadow-shuffle/'
+    id: "shadow-shuffle",
+    title: "Shadow Shuffle",
+    description: "Catch the shadow! 👥",
+    emoji: "👥",
+    color: "#34495e",
+    path: "/shadow-shuffle/",
   },
   {
-    id: 'emoji-codenames',
-    title: 'Emoji Codenames',
-    description: 'Crack the code to learn to read! 🕵️‍♀️',
-    emoji: '🕵️‍♀️',
-    color: '#8e44ad',
-    path: '/emoji-codenames/'
-  }
+    id: "emoji-codenames",
+    title: "Emoji Codenames",
+    description: "Crack the code to learn to read! 🕵️‍♀️",
+    emoji: "🕵️‍♀️",
+    color: "#8e44ad",
+    path: "/emoji-codenames/",
+  },
 ];
 
 const gridStyles = css`
@@ -83,42 +83,41 @@ const gridStyles = css`
 `;
 
 export default function App() {
-  const [view, setView] = useState<'all' | 'starred'>('all');
+  const [view, setView] = useState<"all" | "starred">("all");
   const [starredIds, setStarredIds] = useState<string[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('emoji-minis-starred');
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("emoji-minis-starred");
       return saved ? JSON.parse(saved) : [];
     }
     return [];
   });
 
   useEffect(() => {
-    localStorage.setItem('emoji-minis-starred', JSON.stringify(starredIds));
+    localStorage.setItem("emoji-minis-starred", JSON.stringify(starredIds));
   }, [starredIds]);
 
   const toggleStar = (id: string) => {
-    setStarredIds(prev =>
-      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
+    setStarredIds((prev) =>
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
     );
   };
 
-  const filteredApps = view === 'all'
-    ? apps
-    : apps.filter(app => starredIds.includes(app.id));
+  const filteredApps =
+    view === "all" ? apps : apps.filter((app) => starredIds.includes(app.id));
 
   const navItems = [
     {
-      label: 'All Games',
-      icon: '🏠',
-      isActive: view === 'all',
-      onClick: () => setView('all')
+      label: "All Games",
+      icon: "🏠",
+      isActive: view === "all",
+      onClick: () => setView("all"),
     },
     {
-      label: 'Starred',
-      icon: '⭐️',
-      isActive: view === 'starred',
-      onClick: () => setView('starred')
-    }
+      label: "Starred",
+      icon: "⭐️",
+      isActive: view === "starred",
+      onClick: () => setView("starred"),
+    },
   ];
 
   return (
@@ -146,14 +145,16 @@ export default function App() {
             />
           </motion.div>
         ))}
-        {view === 'starred' && filteredApps.length === 0 && (
-          <div css={css`
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 4rem;
-            color: var(--es-text-secondary);
-            font-size: 1.2rem;
-          `}>
+        {view === "starred" && filteredApps.length === 0 && (
+          <div
+            css={css`
+              grid-column: 1 / -1;
+              text-align: center;
+              padding: 4rem;
+              color: var(--es-text-secondary);
+              font-size: 1.2rem;
+            `}
+          >
             No starred games yet! ⭐️
           </div>
         )}

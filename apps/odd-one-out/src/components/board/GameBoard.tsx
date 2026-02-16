@@ -1,15 +1,21 @@
-import { css } from '@emotion/react';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { EmojiTile } from './EmojiTile';
-import type { TileState } from '../../game/types';
-import { useArrowNavigation } from '../../hooks/useArrowNavigation';
+import { css } from "@emotion/react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { EmojiTile } from "./EmojiTile";
+import type { TileState } from "../../game/types";
+import { useArrowNavigation } from "../../hooks/useArrowNavigation";
 
 export interface GameBoardProps {
   tiles: TileState[];
   disabled?: boolean;
   revealOdd?: boolean;
   onSelectTile: (tileId: string) => void;
-  feedback?: { tileId: string; status: 'correct' | 'wrong' } | null;
+  feedback?: { tileId: string; status: "correct" | "wrong" } | null;
 }
 
 const boardStyles = css`
@@ -31,7 +37,13 @@ const gridStyles = css`
 
 const GAP_PX = 24;
 
-export function GameBoard({ tiles, disabled, revealOdd, onSelectTile, feedback }: GameBoardProps) {
+export function GameBoard({
+  tiles,
+  disabled,
+  revealOdd,
+  onSelectTile,
+  feedback,
+}: GameBoardProps) {
   const { containerRef, handleKeyDown } = useArrowNavigation({
     columns: 2,
     total: tiles.length,
@@ -64,10 +76,13 @@ export function GameBoard({ tiles, disabled, revealOdd, onSelectTile, feedback }
     onSelectTile(tileId);
   };
 
-  const setRefs = useCallback((node: HTMLDivElement | null) => {
-    containerRef.current = node;
-    gridRef.current = node;
-  }, [containerRef]);
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      gridRef.current = node;
+    },
+    [containerRef],
+  );
 
   return (
     <div css={boardStyles}>

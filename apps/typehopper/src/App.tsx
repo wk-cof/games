@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react';
-import type { FormEvent } from 'react';
-import { Shell, HUD, Button, Emoji, toast, wrongShake } from '@emoji-minis/kit';
+import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import { Shell, HUD, Button, Emoji, toast, wrongShake } from "@emoji-minis/kit";
 
-const sequences = ['😀😃😄', '🌈⚡️', '🍕🔥', '🐢➡️🐇', '⭐️🌙', '🍉🍇🍒'];
+const sequences = ["😀😃😄", "🌈⚡️", "🍕🔥", "🐢➡️🐇", "⭐️🌙", "🍉🍇🍒"];
 
 function randomSequence(exclude?: string) {
   const choices = sequences.filter((seq) => seq !== exclude);
@@ -11,18 +11,18 @@ function randomSequence(exclude?: string) {
 
 export default function App() {
   const [target, setTarget] = useState(() => randomSequence());
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [wins, setWins] = useState(0);
   const [fails, setFails] = useState(0);
   const [streak, setStreak] = useState(0);
 
   const hud = useMemo(
     () => [
-      { label: 'wins', value: wins },
-      { label: 'fails', value: fails },
-      { label: 'streak', value: streak }
+      { label: "wins", value: wins },
+      { label: "fails", value: fails },
+      { label: "streak", value: streak },
     ],
-    [wins, fails, streak]
+    [wins, fails, streak],
   );
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -30,15 +30,15 @@ export default function App() {
     if (input === target) {
       setWins((w) => w + 1);
       setStreak((s) => s + 1);
-      toast('Smooth typing!');
-      setInput('');
+      toast("Smooth typing!");
+      setInput("");
       setTarget(randomSequence(target));
     } else {
       setFails((f) => f + 1);
       setStreak(0);
       const form = event.currentTarget;
       wrongShake(form);
-      toast('Mismatch', { duration: 1200 });
+      toast("Mismatch", { duration: 1200 });
     }
   };
 
@@ -46,18 +46,21 @@ export default function App() {
     <Shell title="Typehopper" hud={<HUD items={hud} />}>
       <div className="em-shell__grid">
         <Emoji symbol={target} size="3.5rem" />
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.5rem' }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "grid", gap: "0.5rem" }}
+        >
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="Type the emojis"
             style={{
-              padding: '0.75rem',
-              fontSize: '1.25rem',
-              borderRadius: 'var(--emoji-radius-md)',
-              border: '1px solid var(--es-border)',
-              background: 'var(--es-surface)',
-              color: 'var(--es-text-primary)'
+              padding: "0.75rem",
+              fontSize: "1.25rem",
+              borderRadius: "var(--emoji-radius-md)",
+              border: "1px solid var(--es-border)",
+              background: "var(--es-surface)",
+              color: "var(--es-text-primary)",
             }}
           />
           <Button type="submit">Match it</Button>

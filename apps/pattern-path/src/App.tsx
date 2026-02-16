@@ -1,6 +1,6 @@
-import { css, keyframes } from '@emotion/react';
-import { useMemo, useState } from 'react';
-import { Shell, HUD, Button, Emoji } from '@emoji-minis/kit';
+import { css, keyframes } from "@emotion/react";
+import { useMemo, useState } from "react";
+import { Shell, HUD, Button } from "@emoji-minis/kit";
 
 type Level = {
   pattern: string[];
@@ -16,7 +16,7 @@ type Theme = {
 
 type PatternRecipe = {
   id: string;
-  tier: 'easy' | 'medium' | 'hard';
+  tier: "easy" | "medium" | "hard";
   minLength: number;
   maxLength: number;
   symbols: number;
@@ -24,29 +24,85 @@ type PatternRecipe = {
 };
 
 const LEVEL_COUNT = 12;
-const placeholder = '⬜️';
+const placeholder = "⬜️";
 
 const themes: Theme[] = [
-  { name: 'Forest Friends', emojis: ['🦊', '🦌', '🐻', '🦉', '🌲', '🍄'] },
-  { name: 'Ocean Buddies', emojis: ['🐠', '🐡', '🐟', '🐬', '🐙', '🪼'] },
-  { name: 'Sweet Treats', emojis: ['🍉', '🍓', '🍋', '🍑', '🍰', '🍭'] },
-  { name: 'Cozy Winter', emojis: ['⛄️', '❄️', '🎄', '🧤', '🧣', '🛷'] },
-  { name: 'Sky Shine', emojis: ['☁️', '🌤️', '🌈', '⭐️', '🌙', '☀️'] },
-  { name: 'Zoom Crew', emojis: ['🚗', '🛴', '🚲', '🚁', '✈️', '🛸'] }
+  { name: "Forest Friends", emojis: ["🦊", "🦌", "🐻", "🦉", "🌲", "🍄"] },
+  { name: "Ocean Buddies", emojis: ["🐠", "🐡", "🐟", "🐬", "🐙", "🪼"] },
+  { name: "Sweet Treats", emojis: ["🍉", "🍓", "🍋", "🍑", "🍰", "🍭"] },
+  { name: "Cozy Winter", emojis: ["⛄️", "❄️", "🎄", "🧤", "🧣", "🛷"] },
+  { name: "Sky Shine", emojis: ["☁️", "🌤️", "🌈", "⭐️", "🌙", "☀️"] },
+  { name: "Zoom Crew", emojis: ["🚗", "🛴", "🚲", "🚁", "✈️", "🛸"] },
 ];
 
 const patternRecipes: PatternRecipe[] = [
-  { id: 'AB', tier: 'easy', minLength: 4, maxLength: 6, symbols: 2, seed: ([a, b]) => [a, b] },
-  { id: 'AAB', tier: 'easy', minLength: 5, maxLength: 7, symbols: 2, seed: ([a, b]) => [a, a, b] },
-  { id: 'ABB', tier: 'medium', minLength: 5, maxLength: 8, symbols: 2, seed: ([a, b]) => [a, b, b] },
-  { id: 'ABC', tier: 'medium', minLength: 6, maxLength: 9, symbols: 3, seed: ([a, b, c]) => [a, b, c] },
-  { id: 'ABBC', tier: 'hard', minLength: 6, maxLength: 9, symbols: 3, seed: ([a, b, c]) => [a, b, b, c] },
-  { id: 'AABC', tier: 'hard', minLength: 6, maxLength: 9, symbols: 3, seed: ([a, b, c]) => [a, a, b, c] }
+  {
+    id: "AB",
+    tier: "easy",
+    minLength: 4,
+    maxLength: 6,
+    symbols: 2,
+    seed: ([a, b]) => [a, b],
+  },
+  {
+    id: "AAB",
+    tier: "easy",
+    minLength: 5,
+    maxLength: 7,
+    symbols: 2,
+    seed: ([a, b]) => [a, a, b],
+  },
+  {
+    id: "ABB",
+    tier: "medium",
+    minLength: 5,
+    maxLength: 8,
+    symbols: 2,
+    seed: ([a, b]) => [a, b, b],
+  },
+  {
+    id: "ABC",
+    tier: "medium",
+    minLength: 6,
+    maxLength: 9,
+    symbols: 3,
+    seed: ([a, b, c]) => [a, b, c],
+  },
+  {
+    id: "ABBC",
+    tier: "hard",
+    minLength: 6,
+    maxLength: 9,
+    symbols: 3,
+    seed: ([a, b, c]) => [a, b, b, c],
+  },
+  {
+    id: "AABC",
+    tier: "hard",
+    minLength: 6,
+    maxLength: 9,
+    symbols: 3,
+    seed: ([a, b, c]) => [a, a, b, c],
+  },
 ];
 
-const tierByIndex: Array<'easy' | 'medium' | 'hard'> = ['easy', 'easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard', 'hard', 'hard'];
+const tierByIndex: Array<"easy" | "medium" | "hard"> = [
+  "easy",
+  "easy",
+  "easy",
+  "easy",
+  "medium",
+  "medium",
+  "medium",
+  "medium",
+  "hard",
+  "hard",
+  "hard",
+  "hard",
+];
 
-const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randomInt = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
 const randomItem = <T,>(items: T[]) => items[randomInt(0, items.length - 1)];
 
 const shuffle = <T,>(items: T[]) => {
@@ -67,8 +123,12 @@ const repeatSeed = (seed: string[], length: number) => {
 };
 
 const buildChoices = (answer: string, pattern: string[], theme: Theme) => {
-  const uniqueInPattern = Array.from(new Set(pattern)).filter(e => e !== answer);
-  const otherInTheme = theme.emojis.filter(e => e !== answer && !uniqueInPattern.includes(e));
+  const uniqueInPattern = Array.from(new Set(pattern)).filter(
+    (e) => e !== answer,
+  );
+  const otherInTheme = theme.emojis.filter(
+    (e) => e !== answer && !uniqueInPattern.includes(e),
+  );
 
   const pool = [...shuffle(uniqueInPattern), ...shuffle(otherInTheme)];
 
@@ -83,16 +143,19 @@ const buildChoices = (answer: string, pattern: string[], theme: Theme) => {
 
 const generateLevels = (count: number): Level[] =>
   Array.from({ length: count }, (_, index) => {
-    const tier = tierByIndex[index] ?? 'hard';
+    const tier = tierByIndex[index] ?? "hard";
     const recipePool =
-      tier === 'easy'
-        ? patternRecipes.filter((recipe) => recipe.tier === 'easy')
-        : tier === 'medium'
-          ? patternRecipes.filter((recipe) => recipe.tier !== 'hard')
+      tier === "easy"
+        ? patternRecipes.filter((recipe) => recipe.tier === "easy")
+        : tier === "medium"
+          ? patternRecipes.filter((recipe) => recipe.tier !== "hard")
           : patternRecipes;
     const recipe = randomItem(recipePool);
     const theme = randomItem(themes);
-    const palette = shuffle(theme.emojis).slice(0, Math.min(theme.emojis.length, recipe.symbols + 3));
+    const palette = shuffle(theme.emojis).slice(
+      0,
+      Math.min(theme.emojis.length, recipe.symbols + 3),
+    );
     const baseSymbols = palette.slice(0, recipe.symbols);
     const length = randomInt(recipe.minLength, recipe.maxLength);
     const pattern = repeatSeed(recipe.seed(baseSymbols), length);
@@ -188,13 +251,13 @@ const choiceButton = css`
   font-size: 2rem;
   box-shadow: var(--es-shadow-sm);
   border: 1px solid var(--es-border);
-  
+
   &:hover {
     background: var(--es-background);
     transform: translateY(-2px);
     box-shadow: var(--es-shadow-md);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -232,11 +295,14 @@ const Confetti = ({ show }: { show: boolean }) => {
   if (!show) return null;
   return (
     <div css={confettiWrapper} aria-hidden="true">
-      {['🎉', '✨', '🎊', '💫', '🌟'].map((emoji, index) => (
+      {["🎉", "✨", "🎊", "💫", "🌟"].map((emoji, index) => (
         <span
           key={emoji + index}
           css={confettiPiece}
-          style={{ left: `${10 + index * 15}%`, animationDelay: `${index * 0.08}s` }}
+          style={{
+            left: `${10 + index * 15}%`,
+            animationDelay: `${index * 0.08}s`,
+          }}
         >
           {emoji}
         </span>
@@ -246,9 +312,13 @@ const Confetti = ({ show }: { show: boolean }) => {
 };
 
 export default function App() {
-  const [levels, setLevels] = useState<Level[]>(() => generateLevels(LEVEL_COUNT));
+  const [levels, setLevels] = useState<Level[]>(() =>
+    generateLevels(LEVEL_COUNT),
+  );
   const [levelIndex, setLevelIndex] = useState(0);
-  const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle');
+  const [feedback, setFeedback] = useState<"idle" | "correct" | "wrong">(
+    "idle",
+  );
   const [locked, setLocked] = useState(false);
   const [round, setRound] = useState(1);
   const [score, setScore] = useState(0);
@@ -260,22 +330,27 @@ export default function App() {
   const displayPattern = useMemo(
     () =>
       activeLevel
-        ? activeLevel.pattern.map((emoji, idx) => (idx === activeLevel.missingIndex && !showAnswer ? placeholder : emoji))
+        ? activeLevel.pattern.map((emoji, idx) =>
+            idx === activeLevel.missingIndex && !showAnswer
+              ? placeholder
+              : emoji,
+          )
         : [],
-    [activeLevel, showAnswer]
+    [activeLevel, showAnswer],
   );
-  const answer = activeLevel?.pattern[activeLevel.missingIndex] ?? '';
+  const answer = activeLevel?.pattern[activeLevel.missingIndex] ?? "";
   const nextIndex = (levelIndex + 1) % totalLevels;
   const progressPips = levels.map((_, idx) => {
-    if (idx < levelIndex) return '⭐️';
-    if (idx === levelIndex) return feedback === 'correct' ? '✅' : '✨';
-    return '⚪️';
+    if (idx < levelIndex) return "⭐️";
+    if (idx === levelIndex) return feedback === "correct" ? "✅" : "✨";
+    return "⚪️";
   });
-  const difficulty = levelIndex < 4 ? 'Sprout' : levelIndex < 8 ? 'Explorer' : 'Trailblazer';
+  const difficulty =
+    levelIndex < 4 ? "Sprout" : levelIndex < 8 ? "Explorer" : "Trailblazer";
 
   const advance = () => {
     setLevelIndex(nextIndex);
-    setFeedback('idle');
+    setFeedback("idle");
     setLocked(false);
     setMadeMistake(false);
     setShowAnswer(false);
@@ -288,22 +363,22 @@ export default function App() {
   const handlePick = (choice: string) => {
     if (locked || !activeLevel) return;
     if (choice === answer) {
-      setFeedback('correct');
+      setFeedback("correct");
       setLocked(true);
       setShowAnswer(true);
       const earned = madeMistake ? 1 : 2;
       setScore((value) => value + earned);
       setTimeout(advance, 1000);
     } else {
-      setFeedback('wrong');
+      setFeedback("wrong");
       setMadeMistake(true);
-      setTimeout(() => setFeedback('idle'), 450);
+      setTimeout(() => setFeedback("idle"), 450);
     }
   };
 
   const restart = () => {
     setLevelIndex(0);
-    setFeedback('idle');
+    setFeedback("idle");
     setLocked(false);
     setRound(1);
     setScore(0);
@@ -315,10 +390,10 @@ export default function App() {
   if (!activeLevel) return null;
 
   const hudItems = [
-    { label: 'level', value: `${levelIndex + 1}/${totalLevels}` },
-    { label: 'score', value: `${score} ⭐` },
-    { label: 'rank', value: difficulty },
-    { label: 'theme', value: activeLevel.theme }
+    { label: "level", value: `${levelIndex + 1}/${totalLevels}` },
+    { label: "score", value: `${score} ⭐` },
+    { label: "rank", value: difficulty },
+    { label: "theme", value: activeLevel.theme },
   ];
 
   const actions = (
@@ -328,15 +403,26 @@ export default function App() {
   );
 
   const boardStatus =
-    feedback === 'correct'
-      ? css` ${boardBase}; animation: ${pop} 0.6s ease; box-shadow: 0 18px 50px rgb(109 191 139 / 0.35); `
-      : feedback === 'wrong'
-        ? css` ${boardBase}; animation: ${shake} 0.45s ease; `
+    feedback === "correct"
+      ? css`
+          ${boardBase};
+          animation: ${pop} 0.6s ease;
+          box-shadow: 0 18px 50px rgb(109 191 139 / 0.35);
+        `
+      : feedback === "wrong"
+        ? css`
+            ${boardBase};
+            animation: ${shake} 0.45s ease;
+          `
         : boardBase;
 
   return (
     <>
-      <Shell title="Pattern Path" hud={<HUD items={hudItems} />} actions={actions}>
+      <Shell
+        title="Pattern Path"
+        hud={<HUD items={hudItems} />}
+        actions={actions}
+      >
         <div css={boardStatus}>
           <div css={progressStyles} aria-label="Progress">
             <span css={progressBadge}>Trail {round}</span>
@@ -347,7 +433,14 @@ export default function App() {
 
           <div css={patternStyles} aria-live="polite">
             {displayPattern.map((emoji, idx) => (
-              <span key={`${emoji}-${idx}`} css={idx === activeLevel.missingIndex && !showAnswer ? blankStyles : undefined}>
+              <span
+                key={`${emoji}-${idx}`}
+                css={
+                  idx === activeLevel.missingIndex && !showAnswer
+                    ? blankStyles
+                    : undefined
+                }
+              >
                 {emoji}
               </span>
             ))}
@@ -373,7 +466,7 @@ export default function App() {
             ))}
           </div>
 
-          <Confetti show={feedback === 'correct'} />
+          <Confetti show={feedback === "correct"} />
         </div>
       </Shell>
       <p css={footerStyles}>Trail {round}</p>

@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Global, css } from '@emotion/react';
-import { SoundProvider } from '@emoji-minis/kit';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Global, css } from "@emotion/react";
+import { SoundProvider } from "@emoji-minis/kit";
+import App from "./App";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Global
       styles={css`
@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           padding: 0;
         }
         body {
-          font-family: 'Inter', system-ui, sans-serif;
+          font-family: "Inter", system-ui, sans-serif;
           background-color: #f0f2f5;
         }
       `}
@@ -22,5 +22,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <SoundProvider>
       <App />
     </SoundProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

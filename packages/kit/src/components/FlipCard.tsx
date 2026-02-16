@@ -1,6 +1,6 @@
-import type { CSSProperties, ReactNode } from 'react';
-import { useGameSounds } from '../hooks/useGameSounds';
-import { css } from '@emotion/react';
+import type { CSSProperties, ReactNode } from "react";
+import { useGameSounds } from "../hooks/useGameSounds";
+import { css } from "@emotion/react";
 
 export type FlipCardProps = {
   front: ReactNode;
@@ -46,7 +46,10 @@ const faceBase = css`
   place-items: center;
   font-size: var(--em-card-font-size, clamp(1.75rem, 6vw, 2.7rem));
   box-shadow: var(--es-shadow-md);
-  transition: opacity 180ms ease, background 180ms ease, color 180ms ease,
+  transition:
+    opacity 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
     box-shadow 200ms ease;
   opacity: 0;
   border: 1px solid var(--es-border);
@@ -83,21 +86,25 @@ export function FlipCard({
   size,
   onClick,
   ariaLabel,
-  interactionSound = true
+  interactionSound = true,
 }: FlipCardProps) {
   const { playClick } = useGameSounds();
 
   const sizeStyle: CSSProperties | undefined = size
-    ? {
-      '--em-card-size': `${size}px`,
-      '--em-card-font-size': `${Math.max(22, Math.min(size * 0.55, 120))}px`
-    } as CSSProperties
+    ? ({
+        "--em-card-size": `${size}px`,
+        "--em-card-font-size": `${Math.max(22, Math.min(size * 0.55, 120))}px`,
+      } as CSSProperties)
     : undefined;
 
   return (
     <button
       type="button"
-      css={[cardBase, matched && matchedStyles, !matched && flipped && peekStyles]}
+      css={[
+        cardBase,
+        matched && matchedStyles,
+        !matched && flipped && peekStyles,
+      ]}
       onClick={() => {
         if (!disabled) {
           if (interactionSound) {
@@ -112,7 +119,16 @@ export function FlipCard({
       style={sizeStyle}
     >
       <span css={[faceBase, faceBack, !flipped && faceVisible]}>{back}</span>
-      <span css={[faceBase, faceFront, flipped && faceVisible, matched && faceMatched]}>{front}</span>
+      <span
+        css={[
+          faceBase,
+          faceFront,
+          flipped && faceVisible,
+          matched && faceMatched,
+        ]}
+      >
+        {front}
+      </span>
     </button>
   );
 }

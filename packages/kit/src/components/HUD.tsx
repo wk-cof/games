@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
-import { css } from '@emotion/react';
+import type { ReactNode } from "react";
+import { css } from "@emotion/react";
 
 export type HUDItem = {
   label: ReactNode;
   value: ReactNode;
-  tone?: 'neutral' | 'accent' | 'success';
+  tone?: "neutral" | "accent" | "success";
   active?: boolean;
 };
 
@@ -42,7 +42,7 @@ const toneStyles = {
   success: css`
     background: rgba(16, 185, 129, 0.2);
     color: #065f46;
-  `
+  `,
 };
 
 const activeStyles = css`
@@ -66,7 +66,11 @@ export function HUD({ items, className }: HUDProps) {
       {items.map((item, index) => (
         <div
           key={index}
-          css={[baseItemStyles, toneStyles[item.tone ?? 'neutral'], item.active && activeStyles]}
+          css={[
+            baseItemStyles,
+            toneStyles[item.tone ?? "neutral"],
+            item.active && activeStyles,
+          ]}
         >
           <div css={labelStyles}>{item.label}</div>
           <div css={valueStyles}>{item.value}</div>

@@ -1,13 +1,13 @@
-import { css } from '@emotion/react';
-import { memo } from 'react';
-import { FlipCard } from '@emoji-minis/kit';
-import type { TileState } from '../../game/types';
+import { css } from "@emotion/react";
+import { memo } from "react";
+import { FlipCard } from "@emoji-minis/kit";
+import type { TileState } from "../../game/types";
 
 const orientationTransforms: Record<string, string> = {
-  upright: 'rotate(0deg)',
-  'tilt-left': 'rotate(-12deg)',
-  'tilt-right': 'rotate(12deg)',
-  'flip-horizontal': 'scaleX(-1)'
+  upright: "rotate(0deg)",
+  "tilt-left": "rotate(-12deg)",
+  "tilt-right": "rotate(12deg)",
+  "flip-horizontal": "scaleX(-1)",
 };
 
 const wrapperStyles = css`
@@ -42,7 +42,8 @@ const wrongAnimation = css`
   animation: oddCardWrong 600ms ease;
 
   @keyframes oddCardWrong {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateX(0);
     }
     25% {
@@ -61,28 +62,47 @@ export interface EmojiTileProps {
   tile: TileState;
   disabled?: boolean;
   matched?: boolean;
-  status?: 'correct' | 'wrong';
+  status?: "correct" | "wrong";
   onSelect: () => void;
   index: number;
   size: number;
 }
 
-function EmojiTileComponent({ tile, disabled, matched, status, onSelect, index, size }: EmojiTileProps) {
-  const orientation = orientationTransforms[tile.orientation ?? 'upright'];
+function EmojiTileComponent({
+  tile,
+  disabled,
+  matched,
+  status,
+  onSelect,
+  index,
+  size,
+}: EmojiTileProps) {
+  const orientation = orientationTransforms[tile.orientation ?? "upright"];
   const wrapperClass = [wrapperStyles];
-  if (status === 'correct') {
+  if (status === "correct") {
     wrapperClass.push(correctAnimation);
-  } else if (status === 'wrong') {
+  } else if (status === "wrong") {
     wrapperClass.push(wrongAnimation);
   }
 
   return (
     <div css={wrapperClass} data-grid-index={index}>
       <FlipCard
-        front={<span css={[emojiStyles, css`transform: ${orientation};`]}>{tile.emoji}</span>}
+        front={
+          <span
+            css={[
+              emojiStyles,
+              css`
+                transform: ${orientation};
+              `,
+            ]}
+          >
+            {tile.emoji}
+          </span>
+        }
         back="❔"
         flipped
-        matched={matched || status === 'correct'}
+        matched={matched || status === "correct"}
         disabled={disabled}
         size={size}
         onClick={onSelect}

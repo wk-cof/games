@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { PropsWithChildren } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { PropsWithChildren } from "react";
 import {
   DEFAULT_SETTINGS,
   createSettings,
@@ -7,23 +7,34 @@ import {
   evaluatePick,
   revive,
   tick,
-} from '../game/engine';
-import { generateRuleRound } from '../game/rules';
-import { loadBestScore, loadSettings, saveBestScore, saveSettings } from '../game/storage';
-import type { EngineDependencies } from '../game/engine';
-import type { GameSettings, GameState, Mode, PatternType, ThemeId } from '../game/types';
-import { GameContext, type GameContextValue } from './gameContext';
+} from "../game/engine";
+import { generateRuleRound } from "../game/rules";
+import {
+  loadBestScore,
+  loadSettings,
+  saveBestScore,
+  saveSettings,
+} from "../game/storage";
+import type { EngineDependencies } from "../game/engine";
+import type {
+  GameSettings,
+  GameState,
+  Mode,
+  PatternType,
+  ThemeId,
+} from "../game/types";
+import { GameContext, type GameContextValue } from "./gameContext";
 
 type DependencyOverrides = Partial<EngineDependencies>;
 
 const KID_DEFAULTS: Partial<GameSettings> = {
-  mode: 'kid',
+  mode: "kid",
   lives: 4,
   patterns: { category: true, attribute: false, orientation: false },
   timer: { startTimeMs: 6000, minTimeMs: 6000, timeStepMs: 0 },
 };
 
-const NON_KID_PATTERNS: GameSettings['patterns'] = {
+const NON_KID_PATTERNS: GameSettings["patterns"] = {
   ...DEFAULT_SETTINGS.patterns,
 };
 
@@ -32,7 +43,10 @@ interface GameProviderProps extends PropsWithChildren {
   initialSettings?: Partial<GameSettings>;
 }
 
-const mergeSettings = (base: GameSettings, updates: Partial<GameSettings>): GameSettings => ({
+const mergeSettings = (
+  base: GameSettings,
+  updates: Partial<GameSettings>,
+): GameSettings => ({
   ...base,
   ...updates,
   patterns: {
@@ -46,7 +60,9 @@ const mergeSettings = (base: GameSettings, updates: Partial<GameSettings>): Game
   },
 });
 
-const combineDependencies = (overrides: DependencyOverrides | undefined): EngineDependencies => ({
+const combineDependencies = (
+  overrides: DependencyOverrides | undefined,
+): EngineDependencies => ({
   generateRound: overrides?.generateRound ?? generateRuleRound,
   random: overrides?.random ?? Math.random,
 });
@@ -58,11 +74,15 @@ export const GameProvider = ({
 }: GameProviderProps) => {
   const initialSettingsRef = useRef<GameSettings | null>(null);
   if (!initialSettingsRef.current) {
-    initialSettingsRef.current = createSettings(initialSettings ?? KID_DEFAULTS);
+    initialSettingsRef.current = createSettings(
+      initialSettings ?? KID_DEFAULTS,
+    );
   }
-  const [settings, setSettings] = useState<GameSettings>(() => initialSettingsRef.current!);
-  const lastNonKidPatterns = useRef<GameSettings['patterns']>(
-    initialSettingsRef.current.mode === 'kid'
+  const [settings, setSettings] = useState<GameSettings>(
+    () => initialSettingsRef.current!,
+  );
+  const lastNonKidPatterns = useRef<GameSettings["patterns"]>(
+    initialSettingsRef.current.mode === "kid"
       ? { ...NON_KID_PATTERNS }
       : initialSettingsRef.current.patterns,
   );
@@ -75,7 +95,7 @@ export const GameProvider = ({
   const [state, setState] = useState<GameState>(() =>
     createInitialState(settings, engineDependencies),
   );
-  const [announcement, setAnnouncement] = useState('Welcome to Odd One Out!');
+  const [announcement, setAnnouncement] = useState("Welcome to Odd One Out!");
   const [bestScore, setBestScore] = useState(0);
 
   const hasInitialised = useRef(false);
@@ -87,7 +107,7 @@ export const GameProvider = ({
       setSettings(createSettings(stored));
     }
     settingsHydrated.current = true;
-    const initialMode = initialSettingsRef.current?.mode ?? 'endless';
+    const initialMode = initialSettingsRef.current?.mode ?? "endless";
     setBestScore(loadBestScore((stored?.mode as Mode) ?? initialMode));
   }, []);
 
@@ -106,19 +126,23 @@ export const GameProvider = ({
   }, [settings]);
 
   useEffect(() => {
-    if (settings.mode !== 'kid') {
+    if (settings.mode !== "kid") {
       lastNonKidPatterns.current = settings.patterns;
     }
   }, [settings.mode, settings.patterns]);
 
   useEffect(() => {
-    if (state.status !== 'running' || settings.mode === 'practice' || settings.mode === 'kid') {
+    if (
+      state.status !== "running" ||
+      settings.mode === "practice" ||
+      settings.mode === "kid"
+    ) {
       return;
     }
     const interval = window.setInterval(() => {
       setState((prev) => {
         const next = tick(prev, 120, settings, engineDependencies);
-        if (next.status === 'lost' && prev.status !== 'lost') {
+        if (next.status === "lost" && prev.status !== "lost") {
           setAnnouncement(`Game over. Final score ${next.score}.`);
         } else if (next !== prev && next.lives < prev.lives) {
           setAnnouncement(`Time’s up! ${next.lives} lives remaining.`);
@@ -133,7 +157,12 @@ export const GameProvider = ({
     (tileId: string) => {
       setState((prev) => {
         const oddTileBefore = prev.tiles.find((tile) => tile.isOdd);
-        const evaluation = evaluatePick(prev, tileId, settings, engineDependencies);
+        const evaluation = evaluatePick(
+          prev,
+          tileId,
+          settings,
+          engineDependencies,
+        );
         if (evaluation.correct) {
           setAnnouncement(
             `Correct! Round ${evaluation.state.round}. ${evaluation.state.rule.description}`,
@@ -142,13 +171,15 @@ export const GameProvider = ({
             setBestScore(evaluation.state.score);
             saveBestScore(settings.mode, evaluation.state.score);
           }
-        } else if (evaluation.state.status === 'lost') {
-          setAnnouncement(`No lives left. Final score ${evaluation.state.score}.`);
-        } else if (settings.mode === 'practice') {
+        } else if (evaluation.state.status === "lost") {
+          setAnnouncement(
+            `No lives left. Final score ${evaluation.state.score}.`,
+          );
+        } else if (settings.mode === "practice") {
           setAnnouncement(
             oddTileBefore
               ? `${oddTileBefore.emoji} was the odd one. ${prev.rule.description}`
-              : 'Not quite. Try again — consider the rule hint.',
+              : "Not quite. Try again — consider the rule hint.",
           );
         } else {
           setAnnouncement(`Oops! ${evaluation.state.lives} lives remaining.`);
@@ -166,51 +197,58 @@ export const GameProvider = ({
 
   const setMode = useCallback((mode: Mode) => {
     setSettings((prev) => {
-      if (mode === 'kid' && prev.mode !== 'kid') {
+      if (mode === "kid" && prev.mode !== "kid") {
         lastNonKidPatterns.current = prev.patterns;
       }
       const updates: Partial<GameSettings> = {
         mode,
-        lives: mode === 'kid' ? 4 : prev.lives,
+        lives: mode === "kid" ? 4 : prev.lives,
         timer:
-          mode === 'practice' || mode === 'kid'
+          mode === "practice" || mode === "kid"
             ? { startTimeMs: 6000, minTimeMs: 6000, timeStepMs: 0 }
             : { startTimeMs: 6000, minTimeMs: 2500, timeStepMs: 200 },
       };
 
-      if (mode === 'kid') {
-        updates.patterns = { category: true, attribute: false, orientation: false };
-      } else if (prev.mode === 'kid') {
+      if (mode === "kid") {
+        updates.patterns = {
+          category: true,
+          attribute: false,
+          orientation: false,
+        };
+      } else if (prev.mode === "kid") {
         updates.patterns = lastNonKidPatterns.current;
       }
 
       return mergeSettings(prev, updates);
     });
     setAnnouncement(
-      mode === 'practice'
-        ? 'Practice mode enabled. Take your time and learn the rules.'
-        : mode === 'kid'
-          ? 'Kid mode enabled. No countdowns and friendlier puzzles.'
-          : 'Endless mode enabled. Timers will speed up each round.',
+      mode === "practice"
+        ? "Practice mode enabled. Take your time and learn the rules."
+        : mode === "kid"
+          ? "Kid mode enabled. No countdowns and friendlier puzzles."
+          : "Endless mode enabled. Timers will speed up each round.",
     );
   }, []);
 
-  const togglePattern = useCallback((pattern: PatternType, enabled: boolean) => {
-    setSettings((prev) => {
-      if (prev.mode === 'kid' && pattern !== 'category' && enabled) {
-        return prev;
-      }
+  const togglePattern = useCallback(
+    (pattern: PatternType, enabled: boolean) => {
+      setSettings((prev) => {
+        if (prev.mode === "kid" && pattern !== "category" && enabled) {
+          return prev;
+        }
 
-      const nextPatterns = {
-        ...prev.patterns,
-        [pattern]: enabled,
-      };
-      if (!Object.values(nextPatterns).some(Boolean)) {
-        return prev;
-      }
-      return mergeSettings(prev, { patterns: nextPatterns });
-    });
-  }, []);
+        const nextPatterns = {
+          ...prev.patterns,
+          [pattern]: enabled,
+        };
+        if (!Object.values(nextPatterns).some(Boolean)) {
+          return prev;
+        }
+        return mergeSettings(prev, { patterns: nextPatterns });
+      });
+    },
+    [],
+  );
 
   const setThemes = useCallback((themes: ThemeId[]) => {
     setSettings((prev) => {

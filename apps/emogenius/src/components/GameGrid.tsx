@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { css } from '@emotion/react';
-import { FlipCard, Emoji } from '@emoji-minis/kit';
-import type { Card } from '../types/game';
+import { useLayoutEffect, useRef, useState } from "react";
+import { css } from "@emotion/react";
+import { FlipCard, Emoji } from "@emoji-minis/kit";
+import type { Card } from "../types/game";
 
 export type GameGridProps = {
   deck: Card[];
@@ -38,7 +38,10 @@ export function GameGrid({ deck, cols, isBusy, onCardClick }: GameGridProps) {
       const sizeByHeight = usableHeight / rows;
       const nextSize = Math.max(
         MIN_CARD_SIZE,
-        Math.min(MAX_CARD_SIZE, Math.floor(Math.min(sizeByWidth, sizeByHeight)))
+        Math.min(
+          MAX_CARD_SIZE,
+          Math.floor(Math.min(sizeByWidth, sizeByHeight)),
+        ),
       );
       setCardSize(nextSize);
     };
@@ -46,16 +49,16 @@ export function GameGrid({ deck, cols, isBusy, onCardClick }: GameGridProps) {
     updateSize();
 
     const resizeObserver =
-      typeof ResizeObserver !== 'undefined'
+      typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(() => updateSize())
         : null;
 
     resizeObserver?.observe(element);
-    window.addEventListener('resize', updateSize);
+    window.addEventListener("resize", updateSize);
 
     return () => {
       resizeObserver?.disconnect();
-      window.removeEventListener('resize', updateSize);
+      window.removeEventListener("resize", updateSize);
     };
   }, [cols, deck.length]);
 
@@ -74,7 +77,7 @@ export function GameGrid({ deck, cols, isBusy, onCardClick }: GameGridProps) {
       style={{
         gridTemplateColumns: `repeat(${cols}, ${cardSize}px)`,
         gridAutoRows: `${cardSize}px`,
-        gap: `${GRID_GAP}px`
+        gap: `${GRID_GAP}px`,
       }}
       aria-label="Memory cards"
     >
@@ -83,17 +86,17 @@ export function GameGrid({ deck, cols, isBusy, onCardClick }: GameGridProps) {
           key={card.id}
           front={<Emoji symbol={card.emoji} />}
           back="❔"
-          flipped={card.state !== 'hidden'}
-          matched={card.state === 'matched'}
-          disabled={card.state === 'matched' || isBusy}
+          flipped={card.state !== "hidden"}
+          matched={card.state === "matched"}
+          disabled={card.state === "matched" || isBusy}
           size={cardSize}
           onClick={() => onCardClick(index)}
           ariaLabel={
-            card.state === 'hidden'
-              ? 'Hidden card'
-              : card.state === 'matched'
-              ? `Matched ${card.emoji}`
-              : `Revealed ${card.emoji}`
+            card.state === "hidden"
+              ? "Hidden card"
+              : card.state === "matched"
+                ? `Matched ${card.emoji}`
+                : `Revealed ${card.emoji}`
           }
         />
       ))}

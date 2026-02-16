@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-import { Button } from '@emoji-minis/kit';
-import type { GameMode } from '../types/game';
+import { css } from "@emotion/react";
+import { Button } from "@emoji-minis/kit";
+import type { GameMode } from "../types/game";
 
 export type CelebrationOverlayProps = {
   moves: number;
@@ -9,8 +9,7 @@ export type CelebrationOverlayProps = {
   onRestart: () => void;
 };
 
-const formatPairs = (value: number) =>
-  `${value} pair${value === 1 ? '' : 's'}`;
+const formatPairs = (value: number) => `${value} pair${value === 1 ? "" : "s"}`;
 
 const overlayStyles = css`
   position: absolute;
@@ -69,15 +68,15 @@ export function CelebrationOverlay({
   moves,
   mode,
   playerScores,
-  onRestart
+  onRestart,
 }: CelebrationOverlayProps) {
-  const isMultiplayer = mode === 'hotseat';
+  const isMultiplayer = mode === "hotseat";
 
-  let heading = 'Brilliant memory!';
+  let heading = "Brilliant memory!";
   let message =
     moves > 0
-      ? `You reunited every buddy in ${moves} move${moves === 1 ? '' : 's'}!`
-      : 'You reunited every buddy!';
+      ? `You reunited every buddy in ${moves} move${moves === 1 ? "" : "s"}!`
+      : "You reunited every buddy!";
   let scoreLine: string | null = null;
 
   if (isMultiplayer) {

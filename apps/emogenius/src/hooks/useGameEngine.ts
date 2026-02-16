@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { useGameSounds } from '@emoji-minis/kit';
+import { useGameSounds } from "@emoji-minis/kit";
 import {
   DIFFICULTIES,
   EMOJI_THEMES,
   MISMATCH_TIMEOUT_MS,
   SETTINGS_STORAGE_KEY,
   type Difficulty,
-  type ThemeKey
+  type ThemeKey,
 } from "../constants/gameConfig";
 import type { Card, GameMode, StoredSettings } from "../types/game";
 import shuffle from "../utils/shuffle";
@@ -52,11 +52,13 @@ export type UseGameEngineReturn = {
 };
 
 export const useGameEngine = (
-  options: UseGameEngineOptions = {}
+  options: UseGameEngineOptions = {},
 ): UseGameEngineReturn => {
-  const [theme, setTheme] = useState<ThemeKey>(options.initialTheme ?? "animals");
+  const [theme, setTheme] = useState<ThemeKey>(
+    options.initialTheme ?? "animals",
+  );
   const [difficulty, setDifficulty] = useState<Difficulty>(
-    options.initialDifficulty ?? "easy"
+    options.initialDifficulty ?? "easy",
   );
   const [mode, setMode] = useState<GameMode>(options.initialMode ?? "solo");
   const [deck, setDeck] = useState<Card[]>([]);
@@ -66,7 +68,7 @@ export const useGameEngine = (
   const [matches, setMatches] = useState(0);
   const [targetPairs, setTargetPairs] = useState(0);
   const [playerScores, setPlayerScores] = useState<number[]>(() =>
-    Array(mode === "hotseat" ? 2 : 1).fill(0)
+    Array(mode === "hotseat" ? 2 : 1).fill(0),
   );
   const [activePlayerIndex, setActivePlayerIndex] = useState(0);
 
@@ -96,7 +98,7 @@ export const useGameEngine = (
     const settings: StoredSettings = {
       theme,
       difficulty,
-      mode
+      mode,
     };
     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
   }, [theme, difficulty, mode]);
@@ -105,20 +107,20 @@ export const useGameEngine = (
     return DIFFICULTIES[difficulty];
   }, [difficulty]);
 
-  const pairCount = useMemo(
-    () => Math.floor((rows * cols) / 2),
-    [rows, cols]
-  );
+  const pairCount = useMemo(() => Math.floor((rows * cols) / 2), [rows, cols]);
 
   const startNewGame = useCallback(() => {
     const availableEmojis = EMOJI_THEMES[theme];
     const effectivePairCount = Math.min(pairCount, availableEmojis.length);
-    const selectedEmojis = shuffle(availableEmojis).slice(0, effectivePairCount);
+    const selectedEmojis = shuffle(availableEmojis).slice(
+      0,
+      effectivePairCount,
+    );
     const duplicated = selectedEmojis.flatMap((emoji) => [emoji, emoji]);
     const shuffled: Card[] = shuffle(duplicated).map((emoji, index) => ({
       id: index,
       emoji,
-      state: "hidden"
+      state: "hidden",
     }));
 
     setDeck(shuffled);
@@ -142,7 +144,7 @@ export const useGameEngine = (
       if (!card || card.state !== "hidden") return;
 
       const nextDeck = deck.map((item, idx) =>
-        idx === index ? { ...item, state: "revealed" as const } : item
+        idx === index ? { ...item, state: "revealed" as const } : item,
       );
       setDeck(nextDeck);
 
@@ -165,8 +167,8 @@ export const useGameEngine = (
             prevDeck.map((item, idx) =>
               idx === firstIndex || idx === secondIndex
                 ? { ...item, state: "matched" as const }
-                : item
-            )
+                : item,
+            ),
           );
           setMatches((prev) => prev + 1);
           setPlayerScores((prev) => {
@@ -183,8 +185,8 @@ export const useGameEngine = (
               prevDeck.map((item, idx) =>
                 idx === firstIndex || idx === secondIndex
                   ? { ...item, state: "hidden" as const }
-                  : item
-              )
+                  : item,
+              ),
             );
             setRevealedIndexes([]);
             setIsBusy(false);
@@ -195,7 +197,7 @@ export const useGameEngine = (
         }
       }
     },
-    [activePlayerIndex, deck, isBusy, playerCount, revealedIndexes]
+    [activePlayerIndex, deck, isBusy, playerCount, revealedIndexes],
   );
 
   const isGameWon = targetPairs > 0 && matches === targetPairs;
@@ -215,12 +217,9 @@ export const useGameEngine = (
     setTheme(nextTheme);
   }, []);
 
-  const handleDifficultyChange = useCallback(
-    (nextDifficulty: Difficulty) => {
-      setDifficulty(nextDifficulty);
-    },
-    []
-  );
+  const handleDifficultyChange = useCallback((nextDifficulty: Difficulty) => {
+    setDifficulty(nextDifficulty);
+  }, []);
 
   const handleModeChange = useCallback((nextMode: GameMode) => {
     setMode(nextMode);
@@ -238,12 +237,12 @@ export const useGameEngine = (
     stats: {
       moves,
       playerScores,
-      activePlayerIndex
+      activePlayerIndex,
     },
     startNewGame,
     handleCardClick,
     handleThemeChange,
     handleDifficultyChange,
-    handleModeChange
+    handleModeChange,
   };
 };

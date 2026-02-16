@@ -1,11 +1,11 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 import {
   DIFFICULTIES,
   EMOJI_THEMES,
   type Difficulty,
-  type ThemeKey
-} from '../constants/gameConfig';
-import type { GameMode } from '../types/game';
+  type ThemeKey,
+} from "../constants/gameConfig";
+import type { GameMode } from "../types/game";
 
 export type ControlsPanelProps = {
   theme: ThemeKey;
@@ -48,7 +48,7 @@ export function ControlsPanel({
   mode,
   onThemeChange,
   onDifficultyChange,
-  onModeChange
+  onModeChange,
 }: ControlsPanelProps) {
   return (
     <section css={rootStyles} aria-label="Game settings">

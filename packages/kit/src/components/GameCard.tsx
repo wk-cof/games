@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
-import { useState } from 'react';
+import { css } from "@emotion/react";
+import { useState } from "react";
 
 export type GameCardProps = {
   title: string;
@@ -40,11 +40,11 @@ const cardStyles = (color: string) => css`
   }
 `;
 
-const emojiContainerStyles = (color: string) => css`
+const emojiContainerStyles = css`
   font-size: 3.5rem;
   line-height: 1;
   margin-bottom: 0.5rem;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   transition: transform 0.2s ease;
 `;
 
@@ -83,7 +83,7 @@ const starButtonStyles = (active: boolean) => css`
   &:hover {
     opacity: 1;
     transform: scale(1.1);
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
   }
 `;
 
@@ -94,7 +94,7 @@ export function GameCard({
   color,
   href,
   isStarred = false,
-  onToggleStar
+  onToggleStar,
 }: GameCardProps) {
   const [starred, setStarred] = useState(isStarred);
 
@@ -114,9 +114,7 @@ export function GameCard({
       >
         ⭐️
       </button>
-      <div css={emojiContainerStyles(color)}>
-        {emoji}
-      </div>
+      <div css={emojiContainerStyles}>{emoji}</div>
       <div>
         <h3 css={titleStyles}>{title}</h3>
         <p css={descriptionStyles}>{description}</p>

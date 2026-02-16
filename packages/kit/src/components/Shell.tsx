@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
-import { css } from '@emotion/react';
-import { SoundToggle } from './SoundToggle';
+import type { ReactNode } from "react";
+import { css } from "@emotion/react";
+import { SoundToggle } from "./SoundToggle";
 
 export type NavItem = {
   label: string;
@@ -18,7 +18,7 @@ export type ShellProps = {
   children: ReactNode;
   className?: string;
   hideHeader?: boolean;
-  noSurface?: boolean;
+
   navItems?: NavItem[];
 };
 
@@ -90,16 +90,16 @@ const titleStyles = css`
   font-size: 2rem;
   font-weight: 800;
   margin: 0;
-  background: linear-gradient(135deg, var(--es-primary), #818CF8);
+  background: linear-gradient(135deg, var(--es-primary), #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
 
 const sidebarTitleStyles = css`
-  font-size: 1.5rem; 
-  font-weight: 800; 
+  font-size: 1.5rem;
+  font-weight: 800;
   padding: 0 1rem;
-  background: linear-gradient(135deg, var(--es-primary), #818CF8);
+  background: linear-gradient(135deg, var(--es-primary), #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
@@ -110,8 +110,8 @@ const navItemStyles = (active: boolean) => css`
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: var(--emoji-radius-md);
-  color: ${active ? 'var(--es-primary)' : 'var(--es-text-secondary)'};
-  background: ${active ? 'rgba(99, 102, 241, 0.1)' : 'transparent'};
+  color: ${active ? "var(--es-primary)" : "var(--es-text-secondary)"};
+  background: ${active ? "rgba(99, 102, 241, 0.1)" : "transparent"};
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -135,8 +135,8 @@ export function Shell({
   children,
   className,
   hideHeader = false,
-  noSurface = false,
-  navItems = []
+
+  navItems = [],
 }: ShellProps) {
   const NavContent = () => (
     <>
@@ -155,10 +155,26 @@ export function Shell({
   return (
     <div css={shellContainer} className={className}>
       <aside css={sidebarStyles}>
-        <a href="/" css={[sidebarTitleStyles, css`text-decoration: none; display: block; cursor: pointer;`]}>
+        <a
+          href="/"
+          css={[
+            sidebarTitleStyles,
+            css`
+              text-decoration: none;
+              display: block;
+              cursor: pointer;
+            `,
+          ]}
+        >
           Emoji Minis
         </a>
-        <nav css={css`display: flex; flex-direction: column; gap: 0.5rem;`}>
+        <nav
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+          `}
+        >
           <NavContent />
         </nav>
       </aside>
@@ -168,15 +184,38 @@ export function Shell({
           <header css={headerStyles}>
             <div>
               <h1 css={titleStyles}>{title}</h1>
-              {subtitle && <p css={css`color: var(--es-text-secondary); margin: 0.5rem 0 0;`}>{subtitle}</p>}
+              {subtitle && (
+                <p
+                  css={css`
+                    color: var(--es-text-secondary);
+                    margin: 0.5rem 0 0;
+                  `}
+                >
+                  {subtitle}
+                </p>
+              )}
             </div>
-            <div css={css`display: flex; gap: 0.5rem; align-items: center;`}>
+            <div
+              css={css`
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+              `}
+            >
               <SoundToggle />
               {actions && <div>{actions}</div>}
             </div>
           </header>
         )}
-        {hud && <div css={css`margin-bottom: 2rem;`}>{hud}</div>}
+        {hud && (
+          <div
+            css={css`
+              margin-bottom: 2rem;
+            `}
+          >
+            {hud}
+          </div>
+        )}
         {children}
       </main>
 

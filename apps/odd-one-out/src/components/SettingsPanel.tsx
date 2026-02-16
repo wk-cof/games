@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
-import { Button, SettingsDialog } from '@emoji-minis/kit';
-import { useGame } from '../hooks/gameContext';
-import type { Mode, PatternType, ThemeId } from '../game/types';
-import { THEME_LABELS } from '../data/emojis';
+import { css } from "@emotion/react";
+import { Button, SettingsDialog } from "@emoji-minis/kit";
+import { useGame } from "../hooks/gameContext";
+import type { Mode, PatternType, ThemeId } from "../game/types";
+import { THEME_LABELS } from "../data/emojis";
 
 const sectionStyles = css`
   display: grid;
@@ -22,8 +22,8 @@ const checkboxRow = css`
   text-transform: capitalize;
 `;
 
-const modes: Mode[] = ['endless', 'practice', 'kid'];
-const patterns: PatternType[] = ['category', 'attribute', 'orientation'];
+const modes: Mode[] = ["endless", "practice", "kid"];
+const patterns: PatternType[] = ["category", "attribute", "orientation"];
 
 interface SettingsPanelProps {
   open: boolean;
@@ -46,22 +46,46 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   return (
     <SettingsDialog open={open} onClose={onClose} title="Settings">
       <section css={sectionStyles}>
-        <p css={css`margin: 0; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;`}>
+        <p
+          css={css`
+            margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+          `}
+        >
           Current hint
         </p>
-        <p css={css`margin: 0; opacity: 0.85;`}>
-          {state.rule.description || 'Pick the odd one to keep your streak alive!'}
+        <p
+          css={css`
+            margin: 0;
+            opacity: 0.85;
+          `}
+        >
+          {state.rule.description ||
+            "Pick the odd one to keep your streak alive!"}
         </p>
       </section>
 
       <section css={sectionStyles}>
-        <p css={css`margin: 0; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;`}>Mode</p>
+        <p
+          css={css`
+            margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+          `}
+        >
+          Mode
+        </p>
         <div css={toggleGroupStyles}>
           {modes.map((mode) => (
             <Button
               key={mode}
               type="button"
-              variant={settings.mode === mode ? 'solid' : 'ghost'}
+              variant={settings.mode === mode ? "solid" : "ghost"}
               onClick={() => setMode(mode)}
             >
               {mode}
@@ -71,7 +95,15 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
       </section>
 
       <section css={sectionStyles}>
-        <p css={css`margin: 0; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;`}>
+        <p
+          css={css`
+            margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+          `}
+        >
           Pattern types
         </p>
         {patterns.map((pattern) => (
@@ -80,7 +112,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
               type="checkbox"
               checked={settings.patterns[pattern]}
               onChange={(event) => togglePattern(pattern, event.target.checked)}
-              disabled={settings.mode === 'kid' && pattern !== 'category'}
+              disabled={settings.mode === "kid" && pattern !== "category"}
             />
             <span>{pattern}</span>
           </label>
@@ -89,7 +121,15 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
       </section>
 
       <section css={sectionStyles}>
-        <p css={css`margin: 0; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;`}>
+        <p
+          css={css`
+            margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+          `}
+        >
           Themes
         </p>
         <div css={toggleGroupStyles}>
@@ -100,7 +140,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
               <Button
                 key={theme}
                 type="button"
-                variant={active ? 'solid' : 'ghost'}
+                variant={active ? "solid" : "ghost"}
                 disabled={!canDisable}
                 onClick={() => handleThemeToggle(theme)}
               >
@@ -111,7 +151,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
         </div>
         <small>Choose at least two themes for better variety.</small>
       </section>
-
     </SettingsDialog>
   );
 }

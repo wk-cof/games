@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { css } from '@emotion/react';
-import { Shell, Button, HUD, SettingsDialog } from '@emoji-minis/kit';
-import type { HUDItem } from '@emoji-minis/kit';
-import CelebrationOverlay from './components/CelebrationOverlay';
-import ControlsPanel from './components/ControlsPanel';
-import GameGrid from './components/GameGrid';
-import { useGameEngine } from './hooks/useGameEngine';
+import { useState } from "react";
+import { css } from "@emotion/react";
+import { Shell, Button, HUD, SettingsDialog } from "@emoji-minis/kit";
+import type { HUDItem } from "@emoji-minis/kit";
+import CelebrationOverlay from "./components/CelebrationOverlay";
+import ControlsPanel from "./components/ControlsPanel";
+import GameGrid from "./components/GameGrid";
+import { useGameEngine } from "./hooks/useGameEngine";
 
 const playAreaStyles = css`
   flex: 1;
@@ -46,24 +46,27 @@ export default function App() {
     handleCardClick,
     handleThemeChange,
     handleDifficultyChange,
-    handleModeChange
+    handleModeChange,
   } = useGameEngine();
 
-  const resolvedScores = mode === 'hotseat'
-    ? (stats.playerScores.length ? stats.playerScores : [0, 0])
-    : stats.playerScores;
+  const resolvedScores =
+    mode === "hotseat"
+      ? stats.playerScores.length
+        ? stats.playerScores
+        : [0, 0]
+      : stats.playerScores;
 
   const hudItems: HUDItem[] = [
-    { label: 'Moves', value: stats.moves, tone: 'accent' }
+    { label: "Moves", value: stats.moves, tone: "accent" },
   ];
 
-  if (mode === 'hotseat') {
+  if (mode === "hotseat") {
     resolvedScores.forEach((score, index) => {
       hudItems.push({
         label: `Player ${index + 1}`,
         value: score,
-        tone: 'neutral',
-        active: stats.activePlayerIndex === index
+        tone: "neutral",
+        active: stats.activePlayerIndex === index,
       });
     });
   }
@@ -73,7 +76,11 @@ export default function App() {
       <Button type="button" variant="ghost" onClick={startNewGame}>
         Restart
       </Button>
-      <Button type="button" variant="ghost" onClick={() => setIsSettingsOpen(true)}>
+      <Button
+        type="button"
+        variant="ghost"
+        onClick={() => setIsSettingsOpen(true)}
+      >
         Settings
       </Button>
     </>
@@ -81,7 +88,11 @@ export default function App() {
 
   return (
     <>
-      <Shell title="Emogenius" hud={<HUD items={hudItems} />} actions={headerActions}>
+      <Shell
+        title="Emogenius"
+        hud={<HUD items={hudItems} />}
+        actions={headerActions}
+      >
         <div css={playAreaStyles}>
           <div css={gridFrameStyles}>
             <GameGrid
@@ -101,7 +112,10 @@ export default function App() {
           </div>
         </div>
       </Shell>
-      <SettingsDialog open={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
+      <SettingsDialog
+        open={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      >
         <ControlsPanel
           theme={theme}
           difficulty={difficulty}

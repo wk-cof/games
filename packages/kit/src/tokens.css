@@ -1,14 +1,14 @@
 :root {
   /* Emoji Suite Palette */
-  --es-surface: #FFFFFF;
-  --es-background: #F3F4F6;
-  --es-text-primary: #1F2937;
-  --es-text-secondary: #6B7280;
-  --es-primary: #6366F1;
-  --es-primary-hover: #4F46E5;
-  --es-success: #10B981;
-  --es-error: #EF4444;
-  --es-border: #E5E7EB;
+  --es-surface: #ffffff;
+  --es-background: #f3f4f6;
+  --es-text-primary: #1f2937;
+  --es-text-secondary: #6b7280;
+  --es-primary: #6366f1;
+  --es-primary-hover: #4f46e5;
+  --es-success: #10b981;
+  --es-error: #ef4444;
+  --es-border: #e5e7eb;
 
   /* Mappings for backward compatibility */
   --emoji-bg: var(--es-background);
@@ -30,24 +30,28 @@
   --emoji-radius-pill: 9999px;
 
   /* Typography */
-  --emoji-font-family: 'Inter', 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --emoji-font-family:
+    "Inter", "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   --emoji-emoji-size: clamp(2.5rem, 4vw, 3.5rem);
 
   /* Shadows */
   --es-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --es-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --es-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --es-shadow-md:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --es-shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   color-scheme: light;
 }
 
 :root.dark {
-  --es-surface: #1F2937;
+  --es-surface: #1f2937;
   --es-background: #111827;
-  --es-text-primary: #F9FAFB;
-  --es-text-secondary: #9CA3AF;
-  --es-primary: #818CF8;
-  --es-primary-hover: #6366F1;
+  --es-text-primary: #f9fafb;
+  --es-text-secondary: #9ca3af;
+  --es-primary: #818cf8;
+  --es-primary-hover: #6366f1;
   --es-border: #374151;
 
   --emoji-bg: var(--es-background);

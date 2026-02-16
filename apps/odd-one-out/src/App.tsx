@@ -1,5 +1,5 @@
-import { GameProvider } from './hooks/useGameController';
-import { GameScreen } from './components/GameScreen';
+import { GameProvider } from "./hooks/useGameController";
+import { GameScreen } from "./components/GameScreen";
 
 export function App() {
   return (

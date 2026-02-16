@@ -21,7 +21,7 @@ export const EMOJI_THEMES = {
     "🦋",
     "🐢",
     "🐞",
-    "🐝"
+    "🐝",
   ],
   food: [
     "🍏",
@@ -45,7 +45,7 @@ export const EMOJI_THEMES = {
     "🍪",
     "🧁",
     "🍿",
-    "🥨"
+    "🥨",
   ],
   sports: [
     "⚽",
@@ -69,7 +69,7 @@ export const EMOJI_THEMES = {
     "🛼",
     "🚴",
     "🤸",
-    "🏇"
+    "🏇",
   ],
   nature: [
     "🌲",
@@ -93,7 +93,7 @@ export const EMOJI_THEMES = {
     "🌊",
     "🪵",
     "🪨",
-    "🌞"
+    "🌞",
   ],
   space: [
     "🚀",
@@ -117,7 +117,7 @@ export const EMOJI_THEMES = {
     "🔭",
     "🪐",
     "🪂",
-    "🪄"
+    "🪄",
   ],
   transport: [
     "🚗",
@@ -141,8 +141,8 @@ export const EMOJI_THEMES = {
     "🚁",
     "🚀",
     "🛸",
-    "🚡"
-  ]
+    "🚡",
+  ],
 } as const;
 
 export type ThemeKey = keyof typeof EMOJI_THEMES;
@@ -152,7 +152,7 @@ export const DIFFICULTIES = {
   medium: { label: "Medium • 4x4", rows: 4, cols: 4 },
   hard: { label: "Hard • 4x6", rows: 4, cols: 6 },
   expert: { label: "Expert • 4x8", rows: 4, cols: 8 },
-  master: { label: "Master • 4x10", rows: 4, cols: 10 }
+  master: { label: "Master • 4x10", rows: 4, cols: 10 },
 } as const;
 
 export type Difficulty = keyof typeof DIFFICULTIES;
@@ -163,7 +163,7 @@ export const COACH_EMOJI: Record<CoachMood, string> = {
   excited: "😺",
   thinking: "🤔",
   encouraging: "💪",
-  celebrating: "🎉"
+  celebrating: "🎉",
 };
 
 export const SETTINGS_STORAGE_KEY = "emoji-match-settings";

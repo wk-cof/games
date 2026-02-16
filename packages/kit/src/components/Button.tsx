@@ -1,9 +1,9 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { css } from '@emotion/react';
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { css } from "@emotion/react";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: ReactNode;
-  variant?: 'solid' | 'ghost';
+  variant?: "solid" | "ghost";
   interactionSound?: boolean;
 };
 
@@ -54,9 +54,17 @@ const ghostStyles = css`
   }
 `;
 
-import { useGameSounds } from '../hooks/useGameSounds';
+import { useGameSounds } from "../hooks/useGameSounds";
 
-export function Button({ icon, children, className, variant = 'solid', onClick, interactionSound = true, ...props }: ButtonProps) {
+export function Button({
+  icon,
+  children,
+  className,
+  variant = "solid",
+  onClick,
+  interactionSound = true,
+  ...props
+}: ButtonProps) {
   const { playClick } = useGameSounds();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,8 +75,17 @@ export function Button({ icon, children, className, variant = 'solid', onClick, 
   };
 
   return (
-    <button css={[solidStyles, variant === 'ghost' && ghostStyles]} className={className} onClick={handleClick} {...props}>
-      {icon ? <span aria-hidden="true" style={{ marginRight: '0.35rem' }}>{icon}</span> : null}
+    <button
+      css={[solidStyles, variant === "ghost" && ghostStyles]}
+      className={className}
+      onClick={handleClick}
+      {...props}
+    >
+      {icon ? (
+        <span aria-hidden="true" style={{ marginRight: "0.35rem" }}>
+          {icon}
+        </span>
+      ) : null}
       <span>{children}</span>
     </button>
   );

@@ -1,19 +1,19 @@
-const TOAST_ROOT_ID = 'emoji-kit-toast-root';
+const TOAST_ROOT_ID = "emoji-kit-toast-root";
 
 function ensureToastRoot(): HTMLElement {
   let root = document.getElementById(TOAST_ROOT_ID);
   if (!root) {
-    root = document.createElement('div');
+    root = document.createElement("div");
     root.id = TOAST_ROOT_ID;
     Object.assign(root.style, {
-      position: 'fixed',
-      bottom: 'var(--emoji-spacing-lg)',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: '1000',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'var(--emoji-spacing-sm)'
+      position: "fixed",
+      bottom: "var(--emoji-spacing-lg)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: "1000",
+      display: "flex",
+      flexDirection: "column",
+      gap: "var(--emoji-spacing-sm)",
     });
     document.body.appendChild(root);
   }
@@ -25,19 +25,19 @@ export type ToastOptions = {
 };
 
 export function toast(message: string, options: ToastOptions = {}) {
-  if (typeof document === 'undefined') {
+  if (typeof document === "undefined") {
     return;
   }
   const duration = options.duration ?? 2200;
   const root = ensureToastRoot();
-  const el = document.createElement('div');
+  const el = document.createElement("div");
   Object.assign(el.style, {
-    background: 'var(--emoji-accent)',
-    color: 'var(--emoji-ink)',
-    padding: 'var(--emoji-spacing-sm) var(--emoji-spacing-md)',
-    borderRadius: 'var(--emoji-radius-md)',
-    boxShadow: '0 10px 25px rgb(0 0 0 / 0.2)',
-    animation: 'toast-pop 160ms ease'
+    background: "var(--emoji-accent)",
+    color: "var(--emoji-ink)",
+    padding: "var(--emoji-spacing-sm) var(--emoji-spacing-md)",
+    borderRadius: "var(--emoji-radius-md)",
+    boxShadow: "0 10px 25px rgb(0 0 0 / 0.2)",
+    animation: "toast-pop 160ms ease",
   });
   el.textContent = message;
   root.appendChild(el);
@@ -51,9 +51,9 @@ export function toast(message: string, options: ToastOptions = {}) {
 
 export function wrongShake(target?: HTMLElement | null) {
   if (!target) return;
-  target.style.animation = 'none';
+  target.style.animation = "none";
   target.offsetHeight; // force reflow
-  target.style.animation = 'wrong-shake 400ms ease';
+  target.style.animation = "wrong-shake 400ms ease";
 }
 
 export type Star = {

@@ -1,5 +1,11 @@
-import { createContext, useContext } from 'react';
-import type { GameSettings, GameState, Mode, PatternType, ThemeId } from '../game/types';
+import { createContext, useContext } from "react";
+import type {
+  GameSettings,
+  GameState,
+  Mode,
+  PatternType,
+  ThemeId,
+} from "../game/types";
 
 export interface GameContextValue {
   state: GameState;
@@ -13,12 +19,14 @@ export interface GameContextValue {
   setThemes: (themes: ThemeId[]) => void;
 }
 
-export const GameContext = createContext<GameContextValue | undefined>(undefined);
+export const GameContext = createContext<GameContextValue | undefined>(
+  undefined,
+);
 
 export const useGame = (): GameContextValue => {
   const context = useContext(GameContext);
   if (!context) {
-    throw new Error('useGame must be used within a GameProvider');
+    throw new Error("useGame must be used within a GameProvider");
   }
   return context;
 };

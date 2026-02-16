@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
-import { useEffect, useMemo, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-import { Button } from './Button';
+import { css } from "@emotion/react";
+import { useEffect, useMemo, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { Button } from "./Button";
 
 export type SettingsDialogProps = {
   open: boolean;
@@ -41,25 +41,30 @@ const headerStyles = css`
   gap: var(--emoji-spacing-sm);
 `;
 
-export function SettingsDialog({ open, onClose, title = 'Settings', children }: SettingsDialogProps) {
+export function SettingsDialog({
+  open,
+  onClose,
+  title = "Settings",
+  children,
+}: SettingsDialogProps) {
   useEffect(() => {
     if (!open) {
-      document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty("overflow");
       return;
     }
 
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
 
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKey);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKey);
 
     return () => {
-      window.removeEventListener('keydown', handleKey);
-      document.body.style.removeProperty('overflow');
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.removeProperty("overflow");
     };
   }, [open, onClose]);
 
@@ -78,10 +83,20 @@ export function SettingsDialog({ open, onClose, title = 'Settings', children }: 
           }
         }}
       >
-        <section css={panelStyles} role="dialog" aria-modal="true" aria-label={title}>
+        <section
+          css={panelStyles}
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+        >
           <header css={headerStyles}>
             <h2>{title}</h2>
-            <Button type="button" variant="ghost" onClick={onClose} aria-label="Close settings">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onClose}
+              aria-label="Close settings"
+            >
               ×
             </Button>
           </header>
@@ -95,7 +110,7 @@ export function SettingsDialog({ open, onClose, title = 'Settings', children }: 
     return null;
   }
 
-  if (typeof document !== 'undefined') {
+  if (typeof document !== "undefined") {
     return createPortal(content, document.body);
   }
 

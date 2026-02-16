@@ -1,4 +1,4 @@
-export const shuffle = <T,>(array: readonly T[]): T[] => {
+export const shuffle = <T>(array: readonly T[]): T[] => {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
