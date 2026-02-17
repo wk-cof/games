@@ -42,6 +42,24 @@ Each app imports `@emoji-minis/kit`, has its own strict tsconfig extending the r
 
 GitHub Pages workflow (`.github/workflows/deploy.yml`) runs on pushes to `main`. It builds all apps, collects their output into `dist`, and deploys so every game is served from `/apps-name` under the site root.
 
+
+## How to add a new game
+
+1.  **Scaffold the app**: Create a new directory in `apps/<name>` and set up the `package.json` and `vite.config.ts`.
+2.  **Assign a Port**: Choose a unique port (e.g., 3011) and configure it in `apps/<name>/vite.config.ts`.
+3.  **Configure Base Path**: Set the `base` in `apps/<name>/vite.config.ts` to support proxying in dev:
+    ```ts
+    base: process.env.NODE_ENV === "production" ? "./" : "/<name>/",
+    ```
+4.  **Update Home Proxy**: Add a proxy rule in `apps/home/vite.config.ts` so `localhost:3000/<name>` redirects to your local app server.
+    ```ts
+    "/<name>": {
+      target: "http://localhost:<port>",
+    },
+    ```
+4.  **Register in Home App**: Add the game's metadata to the `apps` array in `apps/home/src/App.tsx`.
+5.  **Update Kill Script**: Update the `kill` script in the root `package.json` to include the new port range.
+
 ## Next steps
 
 More detailed README sections (architecture notes, porting guides, deployment URLs) will be added in the upcoming design pass.

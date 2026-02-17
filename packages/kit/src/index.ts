@@ -11,6 +11,7 @@ export * from "./components/SoundProvider";
 export * from "./components/SoundToggle";
 export * from "./hooks/useSound";
 export * from "./hooks/useGameSounds";
+export * from "./hooks/useLocalStorage";
 
 export { toast, wrongShake, stars } from "./ui";
 export type { ToastOptions, Star } from "./ui";

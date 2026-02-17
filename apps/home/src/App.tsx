@@ -72,6 +72,14 @@ const apps = [
     color: "#8e44ad",
     path: "/emoji-codenames/",
   },
+  {
+    id: "tetris",
+    title: "Tetris",
+    description: "Stack the blocks! 🧱",
+    emoji: "🧱",
+    color: "#E056FD",
+    path: "/tetris/",
+  },
 ];
 
 const gridStyles = css`

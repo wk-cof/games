@@ -35,6 +35,9 @@ export default defineConfig({
       "/emoji-codenames": {
         target: "http://localhost:3009",
       },
+      "/tetris": {
+        target: "http://localhost:3010",
+      },
     },
   },
 });
