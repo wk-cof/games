@@ -80,6 +80,14 @@ const apps = [
     color: "#E056FD",
     path: "/tetris/",
   },
+  {
+    id: "minesweeper",
+    title: "Minesweeper",
+    description: "Watch your step! 💣",
+    emoji: "💣",
+    color: "#333333",
+    path: "/minesweeper/",
+  },
 ];
 
 const gridStyles = css`

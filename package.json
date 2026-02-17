@@ -15,7 +15,7 @@
     "build:apps": "pnpm -r --filter './apps/*' build",
     "build:bundle": "node scripts/collect-dist.mjs",
     "clean": "rimraf dist apps/*/dist packages/kit/dist",
-    "kill": "kill $(lsof -t -i:3000-3010) || true"
+    "kill": "kill $(lsof -t -i:3000-3011) || true"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

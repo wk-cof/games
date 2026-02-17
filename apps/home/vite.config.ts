@@ -38,6 +38,9 @@ export default defineConfig({
       "/tetris": {
         target: "http://localhost:3010",
       },
+      "/minesweeper": {
+        target: "http://localhost:3011",
+      },
     },
   },
 });
