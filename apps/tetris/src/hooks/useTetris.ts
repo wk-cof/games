@@ -54,6 +54,7 @@ export const useTetris = ({ speed }: { speed: number }) => {
     const [isGameOver, setIsGameOver] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+    const [clearingLines, setClearingLines] = useState<number[]>([]);
 
     // Refs to access state in event listeners/intervals
     const gridRef = useRef(grid);
@@ -134,6 +135,27 @@ export const useTetris = ({ speed }: { speed: number }) => {
         return false;
     }, [getRotatedShape]);
 
+    const spawnNextPiece = useCallback((currentGrid: (string | null)[][]) => {
+        // Use the current nextPieceType
+        const type = nextPieceType;
+        // Generate a new one for after this turn
+        setNextPieceType(getRandomPieceType());
+
+        const newPiece = {
+            type,
+            position: { x: Math.floor(BOARD_WIDTH / 2) - 1, y: -2 },
+            rotation: 0
+        };
+
+        setActivePiece(newPiece);
+
+        if (checkCollision(newPiece, currentGrid)) {
+            setIsGameOver(true);
+            setIsPlaying(false);
+            setActivePiece(null);
+        }
+    }, [nextPieceType, checkCollision]);
+
     const lockPiece = useCallback(() => {
         const piece = activePieceRef.current;
         if (!piece) return;
@@ -152,55 +174,53 @@ export const useTetris = ({ speed }: { speed: number }) => {
 
         // Line clearing
         let linesCleared = 0;
-        const finalGrid = newGrid.filter(row => {
-            const isFull = row.every(cell => cell !== null);
-            if (isFull) linesCleared++;
-            return !isFull;
+        const fullRows: number[] = [];
+        newGrid.forEach((row, index) => {
+            if (row.every(cell => cell !== null)) {
+                fullRows.push(index);
+            }
         });
 
-        while (finalGrid.length < BOARD_HEIGHT) {
-            finalGrid.unshift(Array(BOARD_WIDTH).fill(null));
+        if (fullRows.length > 0) {
+            setClearingLines(fullRows);
+
+            // Wait for animation
+            setTimeout(() => {
+                const finalGrid = newGrid.filter((_, index) => !fullRows.includes(index));
+                while (finalGrid.length < BOARD_HEIGHT) {
+                    finalGrid.unshift(Array(BOARD_WIDTH).fill(null));
+                }
+
+                setGrid(finalGrid);
+                setClearingLines([]);
+
+                linesCleared = fullRows.length;
+                if (linesCleared > 0) {
+                    const points = [0, 100, 300, 500, 800][linesCleared] || 0;
+                    setScore(s => s + points * level);
+                }
+
+                spawnNextPiece(finalGrid);
+            }, 300); // 300ms animation
+        } else {
+            setGrid(newGrid);
+            spawnNextPiece(newGrid);
         }
 
-        setGrid(finalGrid);
-        if (linesCleared > 0) {
-            const points = [0, 100, 300, 500, 800][linesCleared] || 0;
-            setScore(s => s + points * level);
-        }
+    }, [nextPieceType, level, getRotatedShape, spawnNextPiece]);
+    // Actually, `checkCollision` is needed for `spawnNextPiece` if defined outside. 
+    // Let's refactor `spawnNextPiece` to be reusable or just inline it carefully.
 
-        // Spawn next
-        const type = nextPieceType;
-        setNextPieceType(getRandomPieceType());
-
-        const newPiece = {
-            type,
-            position: { x: Math.floor(BOARD_WIDTH / 2) - 1, y: -2 }, // Start higher
-            rotation: 0
-        };
-
-        // Check spawn collision?
-        // If we can't place it at y=0?
-        // Let's check collision at spawn point
-        // Actually we start at y=-2. The collision check handles y < 0 by ignoring grid?
-        // `checkCollision`: `if (y >= 0 && currentGrid[y][x])`
-        // So usually safe.
-        // But we need to move it down immediately? 
-        // Usually pieces spawn and fall.
-
-        setActivePiece(newPiece);
-
-        // If immediate collision at spawn (even after gravity?)
-        // Simpler: Check collision at start position.
-        if (checkCollision(newPiece, finalGrid)) {
-            setIsGameOver(true);
-            setIsPlaying(false);
-            setActivePiece(null);
-        }
-
-    }, [nextPieceType, level, getRotatedShape, checkCollision]);
+    // Better to define spawnNextPiece inside or use a ref? 
+    // Let's define it inside lockPiece for now to avoid complexity in this edit, 
+    // BUT wait, `lockPiece` is a callback. 
+    // Let's refactor `lockPiece` to use a helper function `spawnNextPiece`?
+    // Or just duplicate the spawn logic for now inside the timeout?
+    // Use a helper inside the component scope but outside `lockPiece` might need many deps.
+    // Let's put the spawn logic into a function inside `useTetris` scope.
 
     const move = useCallback((dx: number, dy: number, rotateAction: boolean = false) => {
-        if (!activePieceRef.current || !isPlayingRef.current || isPausedRef.current || isGameOverRef.current) return;
+        if (!activePieceRef.current || !isPlayingRef.current || isPausedRef.current || isGameOverRef.current || clearingLines.length > 0) return;
 
         const piece = activePieceRef.current;
 
@@ -245,7 +265,7 @@ export const useTetris = ({ speed }: { speed: number }) => {
     }, [checkCollision, lockPiece]);
 
     const hardDrop = useCallback(() => {
-        if (!activePieceRef.current || !isPlayingRef.current || isPausedRef.current) return;
+        if (!activePieceRef.current || !isPlayingRef.current || isPausedRef.current || clearingLines.length > 0) return;
 
         let currentPiece = activePieceRef.current;
         let y = currentPiece.position.y;
@@ -350,6 +370,7 @@ export const useTetris = ({ speed }: { speed: number }) => {
         moveRight: () => move(1, 0),
         rotate: () => move(0, 0, true),
         drop: () => move(0, 1),
-        hardDrop
+        hardDrop,
+        clearingLines
     };
 };

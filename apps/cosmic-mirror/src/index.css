@@ -1,0 +1,141 @@
+:root {
+  --neon-cyan: #0ff;
+  --neon-magenta: #f0f;
+  --neon-yellow: #ff0;
+  --neon-green: #39ff14;
+  --neon-orange: #ff5e00;
+  --hot-pink: #ff007f;
+  --deep-blue: #0000ff;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000; /* Pitch black */
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  cursor: none; /* Hide cursor for immersion */
+}
+
+.cosmic-void {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.cosmic-entity {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* 1. Starburst (Standard Keys) */
+.anim-starburst {
+  width: 10vmin;
+  height: 10vmin;
+  background: var(--neon-cyan);
+  border-radius: 50%; /* Start as circle for simplicity, use box-shadow for star feel */
+  box-shadow: 
+    0 0 20px var(--neon-magenta),
+    0 0 40px var(--neon-cyan),
+    inset 0 0 10px #fff;
+  animation: starburst 1.5s ease-out forwards;
+}
+@keyframes starburst {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; filter: hue-rotate(0deg); }
+  20% { transform: translate(-50%, -50%) scale(1.5) rotate(45deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.2) rotate(180deg); opacity: 0; filter: hue-rotate(90deg); }
+}
+
+/* 2. Ripple (Modifiers) */
+.anim-ripple {
+  width: 5vmin;
+  height: 5vmin;
+  border: 4px solid var(--neon-green);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--neon-green), inset 0 0 20px var(--neon-green);
+  animation: ripple 2s ease-out forwards;
+}
+@keyframes ripple {
+  0% { transform: translate(-50%, -50%) scale(0.5); border-width: 10px; opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(8); border-width: 0px; opacity: 0; box-shadow: 0 0 50px var(--neon-orange); }
+}
+
+/* 3. Orbiting Moons (Spacebar) */
+.anim-orbit {
+  width: 15vmin;
+  height: 15vmin;
+  background: radial-gradient(circle, var(--neon-cyan) 20%, var(--deep-blue) 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 30px var(--deep-blue);
+  animation: orbit-core 2.5s ease-out forwards;
+}
+.moon {
+  position: absolute;
+  width: 4vmin;
+  height: 4vmin;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  margin-top: -2vmin;
+  margin-left: -2vmin;
+}
+.moon-1 { background: var(--hot-pink); box-shadow: 0 0 10px var(--hot-pink); animation: moon-orb 2.5s linear infinite; }
+.moon-2 { background: var(--neon-orange); box-shadow: 0 0 10px var(--neon-orange); animation: moon-orb 1.5s linear infinite reverse; }
+.moon-3 { background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow); animation: moon-orb 2s ease-in-out infinite; }
+@keyframes orbit-core {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  20% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -60%) scale(1.2); opacity: 0; }
+}
+@keyframes moon-orb {
+  0% { transform: rotate(0deg) translateX(12vmin) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(12vmin) rotate(-360deg); }
+}
+
+/* 4. Supernova (Palm Smash) */
+.anim-supernova {
+  width: 2px;
+  height: 2px;
+  animation: shake 3.5s ease-out forwards;
+}
+.nova-core {
+  position: absolute;
+  width: 40vmin;
+  height: 40vmin;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: nova-explode 3.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+.nova-ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ring-1 {
+  border: 10px dotted var(--neon-magenta);
+  animation: nova-ring-exp 3s ease-out forwards;
+}
+.ring-2 {
+  border: 5px dashed var(--neon-yellow);
+  animation: nova-ring-exp 3.5s ease-out forwards reverse;
+}
+@keyframes shake {
+  0%, 10% { transform: translate(-50%, -50%) translate(2px, 2px); }
+  5% { transform: translate(-50%, -50%) translate(-2px, -2px); }
+  100% { transform: translate(-50%, -50%); }
+}
+@keyframes nova-explode {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; box-shadow: 0 0 100px #fff; }
+  10% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; box-shadow: 0 0 200px var(--neon-cyan), 0 0 400px var(--neon-magenta); }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; filter: hue-rotate(360deg); background: transparent; }
+}
+@keyframes nova-ring-exp {
+  0% { width: 0; height: 0; opacity: 1; }
+  100% { width: 150vw; height: 150vw; opacity: 0; border-width: 0; transform: translate(-50%, -50%) rotate(180deg); }
+}

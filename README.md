@@ -46,19 +46,25 @@ GitHub Pages workflow (`.github/workflows/deploy.yml`) runs on pushes to `main`.
 ## How to add a new game
 
 1.  **Scaffold the app**: Create a new directory in `apps/<name>` and set up the `package.json` and `vite.config.ts`.
-2.  **Assign a Port**: Choose a unique port (e.g., 3011) and configure it in `apps/<name>/vite.config.ts`.
+2.  **Assign a Port**: Choose a unique port (e.g., 3011) and configure it with `strictPort: true` in `apps/<name>/vite.config.ts` so proxying doesn't silently break:
+    ```ts
+    server: {
+      port: 3011,
+      strictPort: true,
+    },
+    ```
 3.  **Configure Base Path**: Set the `base` in `apps/<name>/vite.config.ts` to support proxying in dev:
     ```ts
     base: process.env.NODE_ENV === "production" ? "./" : "/<name>/",
     ```
-4.  **Update Home Proxy**: Add a proxy rule in `apps/home/vite.config.ts` so `localhost:3000/<name>` redirects to your local app server.
+4.  **Update Home Proxy**: Add a proxy rule in `apps/home/vite.config.ts` so `localhost:3000/<name>` redirects to your local app server. **Do not forget this step, otherwise the app will redirect to a blank screen!**
     ```ts
     "/<name>": {
       target: "http://localhost:<port>",
     },
     ```
-4.  **Register in Home App**: Add the game's metadata to the `apps` array in `apps/home/src/App.tsx`.
-5.  **Update Kill Script**: Update the `kill` script in the root `package.json` to include the new port range.
+5.  **Register in Home App**: Add the game's metadata to the `apps` array in `apps/home/src/App.tsx`.
+6.  **Update Kill Script**: Update the `kill` script in the root `package.json` to include the new port range.
 
 ## Next steps
 

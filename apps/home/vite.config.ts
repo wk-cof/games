@@ -41,6 +41,9 @@ export default defineConfig({
       "/minesweeper": {
         target: "http://localhost:3011",
       },
+      "/cosmic-mirror": {
+        target: "http://localhost:3012",
+      },
     },
   },
 });

@@ -88,6 +88,14 @@ const apps = [
     color: "#333333",
     path: "/minesweeper/",
   },
+  {
+    id: "cosmic-mirror",
+    title: "The Cosmic Mirror",
+    description: "A sensory keyboard universe for toddlers! 🌌",
+    emoji: "🌌",
+    color: "#0ff",
+    path: "/cosmic-mirror/",
+  },
 ];
 
 const gridStyles = css`
