@@ -156,7 +156,7 @@ export function Shell({
     <div css={shellContainer} className={className}>
       <aside css={sidebarStyles}>
         <a
-          href="/"
+          href="/games/"
           css={[
             sidebarTitleStyles,
             css`
@@ -182,18 +182,35 @@ export function Shell({
       <main css={mainContentStyles}>
         {!hideHeader && (
           <header css={headerStyles}>
-            <div>
-              <h1 css={titleStyles}>{title}</h1>
-              {subtitle && (
-                <p
-                  css={css`
-                    color: var(--es-text-secondary);
-                    margin: 0.5rem 0 0;
-                  `}
-                >
-                  {subtitle}
-                </p>
-              )}
+            <div css={css`display: flex; align-items: center; gap: 0.5rem;`}>
+              <a
+                href="/games/"
+                css={css`
+                  display: block;
+                  text-decoration: none;
+                  font-size: 1.5rem;
+                  padding-right: 0.5rem;
+                  @media (min-width: 768px) {
+                    display: none;
+                  }
+                `}
+                aria-label="Home"
+              >
+                🏠
+              </a>
+              <div>
+                <h1 css={titleStyles}>{title}</h1>
+                {subtitle && (
+                  <p
+                    css={css`
+                      color: var(--es-text-secondary);
+                      margin: 0.5rem 0 0;
+                    `}
+                  >
+                    {subtitle}
+                  </p>
+                )}
+              </div>
             </div>
             <div
               css={css`
